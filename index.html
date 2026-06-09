@@ -1,11 +1,11 @@
-<iframe srcdoc='<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FedEx Undeliverable Package — Bizee Guide</title>
 <style>
-  @import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap&#39;);
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --orange:       #E8450A;
@@ -31,7 +31,7 @@
     --shadow-lg: 0 2px 12px rgba(0,0,0,0.10);
   }
   body {
-    font-family: &#39;Inter&#39;, -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     background: var(--page-bg);
     color: var(--text);
     min-height: 100vh;
@@ -120,7 +120,7 @@
     flex: 1; min-width: 130px;
     padding: 14px 16px; border-radius: var(--radius-lg);
     border: 1.5px solid var(--border); background: white;
-    cursor: pointer; font-family: &#39;Inter&#39;, sans-serif;
+    cursor: pointer; font-family: 'Inter', sans-serif;
     font-size: 14px; font-weight: 600; color: var(--text);
     text-align: center; transition: all 0.15s;
     display: flex; flex-direction: column; align-items: center; gap: 6px;
@@ -137,7 +137,7 @@
   .field       { display: flex; flex-direction: column; gap: 4px; }
   .field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
   .field input {
-    font-family: &#39;Inter&#39;, sans-serif; font-size: 14px;
+    font-family: 'Inter', sans-serif; font-size: 14px;
     padding: 9px 11px; border: 1.5px solid var(--border);
     border-radius: var(--radius); color: var(--text); background: white;
     transition: border-color 0.15s; outline: none;
@@ -153,7 +153,7 @@
   .search-box .search-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
   .search-row { display: flex; gap: 8px; }
   .search-row input {
-    flex: 1; font-family: &#39;Inter&#39;, sans-serif; font-size: 14px;
+    flex: 1; font-family: 'Inter', sans-serif; font-size: 14px;
     padding: 9px 11px; border: 1.5px solid var(--border);
     border-radius: var(--radius); color: var(--text); background: white;
     outline: none; transition: border-color 0.15s;
@@ -162,7 +162,7 @@
   .search-btn {
     padding: 9px 16px; background: var(--orange); color: white;
     border: none; border-radius: var(--radius);
-    font-family: &#39;Inter&#39;, sans-serif; font-size: 13px; font-weight: 600;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
     cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 5px;
     transition: background 0.15s;
   }
@@ -205,7 +205,7 @@
   .note-inputs .field { flex: 1; max-width: 220px; }
   .template-content {
     font-size: 13px; line-height: 1.7; white-space: pre-wrap;
-    font-family: &#39;Inter&#39;, sans-serif; color: var(--text);
+    font-family: 'Inter', sans-serif; color: var(--text);
     background: white; border: 1px solid var(--border);
     border-radius: var(--radius); padding: 11px; margin-top: 6px;
   }
@@ -215,7 +215,7 @@
     display: flex; align-items: center; gap: 4px;
     padding: 4px 10px; background: var(--orange); color: white;
     border: none; border-radius: 4px;
-    font-family: &#39;Inter&#39;, sans-serif; font-size: 11px; font-weight: 600;
+    font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600;
     cursor: pointer; transition: background 0.15s;
   }
   .copy-btn:hover { background: #c73a08; } .copy-btn.copied { background: var(--success); }
@@ -226,7 +226,7 @@
   .action-btn {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 10px 20px; border-radius: var(--radius); border: none;
-    font-family: &#39;Inter&#39;, sans-serif; font-size: 14px; font-weight: 600;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
     cursor: pointer; transition: all 0.15s; margin-top: 4px;
   }
   .action-btn.primary   { background: var(--orange); color: white; }
@@ -250,7 +250,7 @@
   /* ── Bottom bar ─────────────────────────────────────────────── */
   .bottom-bar { max-width: 680px; margin: 8px auto 0; text-align: center; }
   .restart-btn {
-    background: none; border: none; font-family: &#39;Inter&#39;, sans-serif;
+    background: none; border: none; font-family: 'Inter', sans-serif;
     font-size: 12px; font-weight: 500; color: var(--muted);
     cursor: pointer; text-decoration: underline;
   }
@@ -285,30 +285,38 @@
 
 <script>
 // ── State ─────────────────────────────────────────────────────────────────────
-let state = { step: &#39;CALL_TYPE&#39;, callType: null, vm: {}, live: {}, trail: [&#39;CALL_TYPE&#39;] };
+let state = { step: 'CALL_TYPE', callType: null, vm: {}, live: {}, trail: ['CALL_TYPE'] };
 // History stack for back button — each entry is a deep copy of state before the step change
 let history = [];
 
 const TRAIL = {
-  CALL_TYPE:&#39;Call Type&#39;, VM_FORM:&#39;Voicemail Info&#39;, VM_ESCALATE:&#39;Escalate&#39;,
-  LIVE_FORM:&#39;Live Call&#39;, LIVE_SEARCH_REF:&#39;Search by Ref #&#39;,
-  LIVE_SEARCH_NAME:&#39;Search by Name&#39;, LIVE_FOUND:&#39;Order Found&#39;, LIVE_NOT_FOUND:&#39;No Order&#39;,
+  CALL_TYPE:'Call Type', VM_FORM:'Voicemail Info', VM_ESCALATE:'Escalate',
+  LIVE_FORM:'Live Call', LIVE_SEARCH_REF:'Search by Ref #',
+  LIVE_SEARCH_NAME:'Search by Name', LIVE_FOUND:'Order Found', LIVE_NOT_FOUND:'No Order',
 };
 
 // ── Render ────────────────────────────────────────────────────────────────────
+function reportHeight() {
+  if (window.parent !== window) {
+    window.parent.postMessage({ height: document.body.scrollHeight + 32 }, '*');
+  }
+}
+
 function render() {
   renderTrail();
-  const app = document.getElementById(&#39;app&#39;);
-  app.innerHTML = &#39;&#39;;
-  const card = document.createElement(&#39;div&#39;);
-  card.className = &#39;step-card&#39;;
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+  const card = document.createElement('div');
+  card.className = 'step-card';
   card.innerHTML = getStepHTML(state.step);
   app.appendChild(card);
+  setTimeout(reportHeight, 80);
+  setTimeout(reportHeight, 400); // catch late-rendering content
 }
 function renderTrail() {
-  document.getElementById(&#39;trail&#39;).innerHTML = state.trail.map((t,i) =>
-    `${i>0?&#39;<span class="trail-sep">›</span>&#39;:&#39;&#39;}<span class="trail-crumb${i===state.trail.length-1?&#39; active&#39;:&#39;&#39;}">${TRAIL[t]||t}</span>`
-  ).join(&#39;&#39;);
+  document.getElementById('trail').innerHTML = state.trail.map((t,i) =>
+    `${i>0?'<span class="trail-sep">›</span>':''}<span class="trail-crumb${i===state.trail.length-1?' active':''}">${TRAIL[t]||t}</span>`
+  ).join('');
 }
 function pushTrail(s) { if (state.trail[state.trail.length-1]!==s) state.trail.push(s); }
 
@@ -320,36 +328,36 @@ function saveHistory() {
 // Capture any currently visible form inputs into state before navigating
 function captureCurrentInputs() {
   const s = state.step;
-  if (s === &#39;VM_FORM&#39;) {
+  if (s === 'VM_FORM') {
     state.vm = {
-      tracking:  document.getElementById(&#39;vm-tracking&#39;)?.value  ?? state.vm.tracking  ?? &#39;&#39;,
-      reference: document.getElementById(&#39;vm-reference&#39;)?.value ?? state.vm.reference ?? &#39;&#39;,
-      name:      document.getElementById(&#39;vm-name&#39;)?.value      ?? state.vm.name      ?? &#39;&#39;,
-      location:  document.getElementById(&#39;vm-location&#39;)?.value  ?? state.vm.location  ?? &#39;&#39;,
-      reason:    document.getElementById(&#39;vm-reason&#39;)?.value    ?? state.vm.reason    ?? &#39;&#39;,
+      tracking:  document.getElementById('vm-tracking')?.value  ?? state.vm.tracking  ?? '',
+      reference: document.getElementById('vm-reference')?.value ?? state.vm.reference ?? '',
+      name:      document.getElementById('vm-name')?.value      ?? state.vm.name      ?? '',
+      location:  document.getElementById('vm-location')?.value  ?? state.vm.location  ?? '',
+      reason:    document.getElementById('vm-reason')?.value    ?? state.vm.reason    ?? '',
     };
-  } else if (s === &#39;LIVE_FORM&#39;) {
+  } else if (s === 'LIVE_FORM') {
     state.live = {
       ...state.live,
-      tracking:  document.getElementById(&#39;live-tracking&#39;)?.value  ?? state.live.tracking  ?? &#39;&#39;,
-      reference: document.getElementById(&#39;live-reference&#39;)?.value ?? state.live.reference ?? &#39;&#39;,
-      reason:    document.getElementById(&#39;live-reason&#39;)?.value    ?? state.live.reason    ?? &#39;&#39;,
+      tracking:  document.getElementById('live-tracking')?.value  ?? state.live.tracking  ?? '',
+      reference: document.getElementById('live-reference')?.value ?? state.live.reference ?? '',
+      reason:    document.getElementById('live-reason')?.value    ?? state.live.reason    ?? '',
     };
-  } else if (s === &#39;LIVE_SEARCH_REF&#39;) {
-    state.live = { ...state.live, reference: document.getElementById(&#39;ref-input&#39;)?.value ?? state.live.reference ?? &#39;&#39; };
-  } else if (s === &#39;LIVE_SEARCH_NAME&#39;) {
-    state.live = { ...state.live, name: document.getElementById(&#39;live-name&#39;)?.value ?? state.live.name ?? &#39;&#39; };
-  } else if (s === &#39;LIVE_FOUND&#39;) {
+  } else if (s === 'LIVE_SEARCH_REF') {
+    state.live = { ...state.live, reference: document.getElementById('ref-input')?.value ?? state.live.reference ?? '' };
+  } else if (s === 'LIVE_SEARCH_NAME') {
+    state.live = { ...state.live, name: document.getElementById('live-name')?.value ?? state.live.name ?? '' };
+  } else if (s === 'LIVE_FOUND') {
     state.live = {
       ...state.live,
-      reference: document.getElementById(&#39;rts-order&#39;)?.value    ?? state.live.reference ?? &#39;&#39;,
-      tracking:  document.getElementById(&#39;rts-tracking&#39;)?.value ?? state.live.tracking  ?? &#39;&#39;,
+      reference: document.getElementById('rts-order')?.value    ?? state.live.reference ?? '',
+      tracking:  document.getElementById('rts-tracking')?.value ?? state.live.tracking  ?? '',
     };
-  } else if (s === &#39;LIVE_NOT_FOUND&#39;) {
+  } else if (s === 'LIVE_NOT_FOUND') {
     state.live = {
       ...state.live,
-      name:            document.getElementById(&#39;nf-name&#39;)?.value     ?? state.live.name ?? &#39;&#39;,
-      packageLocation: document.getElementById(&#39;nf-location&#39;)?.value ?? state.live.packageLocation ?? &#39;&#39;,
+      name:            document.getElementById('nf-name')?.value     ?? state.live.name ?? '',
+      packageLocation: document.getElementById('nf-location')?.value ?? state.live.packageLocation ?? '',
     };
   }
 }
@@ -367,7 +375,7 @@ function zdNoteBlock(pid, defaultContent) {
     <div class="note-block zd">
       <div class="note-block-header">
         <span class="tag">📋 Zendesk Note</span>
-        <button class="copy-btn" id="${pid}-zd-copy" onclick="copyEl(&#39;${pid}-zd-copy&#39;,&#39;${pid}-zd-text&#39;)">📋 Copy</button>
+        <button class="copy-btn" id="${pid}-zd-copy" onclick="copyEl('${pid}-zd-copy','${pid}-zd-text')">📋 Copy</button>
       </div>
       <div class="note-body">
         <div class="template-content" id="${pid}-zd-text">${escapeHtml(defaultContent)}</div>
@@ -376,7 +384,7 @@ function zdNoteBlock(pid, defaultContent) {
 }
 
 function dbNoteBlock(pid, defaultOrder) {
-  const initialText = dbNoteText(pid, &#39;[ticket #]&#39;, defaultOrder);
+  const initialText = dbNoteText(pid, '[ticket #]', defaultOrder);
   const orderLink   = defaultOrder
     ? `<a id="${pid}-db-link" href="https://bizee.tech/incfile/order/detail/${escapeHtml(defaultOrder)}" target="_blank" class="db-link">🔗 Open Order ${escapeHtml(defaultOrder)} in Bizee ↗</a>`
     : `<a id="${pid}-db-link" href="#" target="_blank" class="db-link" style="display:none;">🔗 Open Order in Bizee ↗</a>`;
@@ -384,17 +392,17 @@ function dbNoteBlock(pid, defaultOrder) {
     <div class="note-block db">
       <div class="note-block-header">
         <span class="tag">🗄️ DB Note</span>
-        <button class="copy-btn" id="${pid}-db-copy" onclick="copyEl(&#39;${pid}-db-copy&#39;,&#39;${pid}-db-text&#39;)">📋 Copy</button>
+        <button class="copy-btn" id="${pid}-db-copy" onclick="copyEl('${pid}-db-copy','${pid}-db-text')">📋 Copy</button>
       </div>
       <div class="note-body">
         <div class="note-inputs">
           <div class="field">
             <label>Ticket # <span style="font-size:11px;font-weight:400;color:#94a3b8;">(Zendesk)</span></label>
-            <input id="${pid}-db-ticket" placeholder="e.g. 2687374" oninput="refreshDB(&#39;${pid}&#39;)">
+            <input id="${pid}-db-ticket" placeholder="e.g. 2687374" oninput="refreshDB('${pid}')">
           </div>
           <div class="field">
             <label>Order #</label>
-            <input id="${pid}-db-order" placeholder="e.g. 226060904682" value="${escapeHtml(defaultOrder)}" oninput="refreshDB(&#39;${pid}&#39;)">
+            <input id="${pid}-db-order" placeholder="e.g. 226060904682" value="${escapeHtml(defaultOrder)}" oninput="refreshDB('${pid}')">
           </div>
         </div>
         <div class="template-content" id="${pid}-db-text" style="font-weight:500;">${escapeHtml(initialText)}</div>
@@ -404,25 +412,25 @@ function dbNoteBlock(pid, defaultOrder) {
 }
 
 const DB_LABELS = {
-  vm:  &#39;FedEx Undeliverable Package — Voicemail Received — Escalated to RA/VA&#39;,
-  rts: &#39;FedEx Undeliverable Package — Return to Sender Confirmed&#39;,
+  vm:  'FedEx Undeliverable Package — Voicemail Received — Escalated to RA/VA',
+  rts: 'FedEx Undeliverable Package — Return to Sender Confirmed',
 };
 function dbNoteText(pid, ticket, order) {
-  return `${ticket || &#39;[ticket #]&#39;} / ${DB_LABELS[pid] || &#39;FedEx Undeliverable Package&#39;}`;
+  return `${ticket || '[ticket #]'} / ${DB_LABELS[pid] || 'FedEx Undeliverable Package'}`;
 }
 function refreshDB(pid) {
-  const ticket = document.getElementById(`${pid}-db-ticket`)?.value.trim() || &#39;[ticket #]&#39;;
-  const order  = document.getElementById(`${pid}-db-order`)?.value.trim()  || &#39;&#39;;
+  const ticket = document.getElementById(`${pid}-db-ticket`)?.value.trim() || '[ticket #]';
+  const order  = document.getElementById(`${pid}-db-order`)?.value.trim()  || '';
   const textEl = document.getElementById(`${pid}-db-text`);
   const linkEl = document.getElementById(`${pid}-db-link`);
   if (textEl) textEl.textContent = dbNoteText(pid, ticket, order);
   if (linkEl) {
     if (order) {
-      linkEl.style.display = &#39;inline-flex&#39;;
+      linkEl.style.display = 'inline-flex';
       linkEl.href = `https://bizee.tech/incfile/order/detail/${order}`;
       linkEl.textContent = `🔗 Open Order ${order} in Bizee ↗`;
     } else {
-      linkEl.style.display = &#39;none&#39;;
+      linkEl.style.display = 'none';
     }
   }
 }
@@ -431,14 +439,14 @@ function refreshDB(pid) {
 function backBtn() {
   return history.length > 0
     ? `<button class="action-btn back" onclick="goBack()">← Back</button>`
-    : &#39;&#39;;
+    : '';
 }
 
 // ── Steps ─────────────────────────────────────────────────────────────────────
 function getStepHTML(step) {
   switch(step) {
 
-    case &#39;CALL_TYPE&#39;: return `
+    case 'CALL_TYPE': return `
       <div class="step-header">
         <div class="step-icon purple">📞</div>
         <div><div class="step-label">Step 1</div><div class="step-title">Incoming FedEx Call / Undeliverable Package</div></div>
@@ -446,44 +454,44 @@ function getStepHTML(step) {
       <div class="step-body">
         <div class="callout info"><span class="callout-icon">ℹ️</span><span>FedEx is calling about a package that cannot be delivered. What type of call is this?</span></div>
         <div class="choices" style="margin-top:16px;">
-          <button class="choice-btn voicemail" onclick="go(&#39;voicemail&#39;)">
+          <button class="choice-btn voicemail" onclick="go('voicemail')">
             <span class="btn-icon">📩</span><span>Voicemail</span>
             <span style="font-size:11px;font-weight:400;color:var(--muted);">They left a message</span>
           </button>
-          <button class="choice-btn live" onclick="go(&#39;live&#39;)">
+          <button class="choice-btn live" onclick="go('live')">
             <span class="btn-icon">🎧</span><span>Live Call</span>
             <span style="font-size:11px;font-weight:400;color:var(--muted);">Agent is on the line</span>
           </button>
         </div>
       </div>`;
 
-    case &#39;VM_FORM&#39;: return `
+    case 'VM_FORM': return `
       <div class="step-header">
         <div class="step-icon purple">📩</div>
-        <div><div class="step-label">Voicemail</div><div class="step-title">Listen to voicemail &amp; fill in details</div></div>
+        <div><div class="step-label">Voicemail</div><div class="step-title">Listen to voicemail & fill in details</div></div>
       </div>
       <div class="step-body">
         <div class="callout warn"><span class="callout-icon">🎙️</span><span>Listen to the voicemail and record all information below.</span></div>
         <div class="field-group" style="margin-top:14px;">
           <div class="field-row">
-            <div class="field"><label>Tracking #</label><input id="vm-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.vm.tracking||&#39;&#39;)}"></div>
-            <div class="field"><label>Reference #</label><input id="vm-reference" placeholder="e.g. 226060904682" value="${escapeHtml(state.vm.reference||&#39;&#39;)}"></div>
+            <div class="field"><label>Tracking #</label><input id="vm-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.vm.tracking||'')}"></div>
+            <div class="field"><label>Reference #</label><input id="vm-reference" placeholder="e.g. 226060904682" value="${escapeHtml(state.vm.reference||'')}"></div>
           </div>
-          <div class="field"><label>Recipient Name</label><input id="vm-name" placeholder="Full name as stated in voicemail" value="${escapeHtml(state.vm.name||&#39;&#39;)}"></div>
+          <div class="field"><label>Recipient Name</label><input id="vm-name" placeholder="Full name as stated in voicemail" value="${escapeHtml(state.vm.name||'')}"></div>
           <div class="field-row">
-            <div class="field"><label>Package Location</label><input id="vm-location" placeholder="e.g. FedEx facility, Austin TX" value="${escapeHtml(state.vm.location||&#39;&#39;)}"></div>
-            <div class="field"><label>Undeliverable Reason</label><input id="vm-reason" placeholder="e.g. Address not found, Refused" value="${escapeHtml(state.vm.reason||&#39;&#39;)}"></div>
+            <div class="field"><label>Package Location</label><input id="vm-location" placeholder="e.g. FedEx facility, Austin TX" value="${escapeHtml(state.vm.location||'')}"></div>
+            <div class="field"><label>Undeliverable Reason</label><input id="vm-reason" placeholder="e.g. Address not found, Refused" value="${escapeHtml(state.vm.reason||'')}"></div>
           </div>
         </div>
         <div class="btn-row">
           ${backBtn()}
-          <button class="action-btn primary" onclick="submitVM()">Continue &amp;#8594; Generate Notes</button>
+          <button class="action-btn primary" onclick="submitVM()">Continue &#8594; Generate Notes</button>
         </div>
       </div>`;
 
-    case &#39;VM_ESCALATE&#39;: {
+    case 'VM_ESCALATE': {
       const zdText = buildVMZDNote(state.vm);
-      const ref    = state.vm.reference || &#39;&#39;;
+      const ref    = state.vm.reference || '';
       return `
         <div class="step-header">
           <div class="step-icon red">🚨</div>
@@ -491,8 +499,8 @@ function getStepHTML(step) {
         </div>
         <div class="step-body">
           <div class="callout escalate"><span class="callout-icon">🚨</span><span>Copy the <b>Zendesk note</b> below and click <a href="https://bizee.tech/order-tracker/orders/order-search" target="_blank" class="note-link" style="color:#991b1b;font-weight:700;text-decoration:underline;">RA/VA Mail Escalations Box ↗</a> to paste it. Then fill in the <b>DB note</b> below.</span></div>
-          ${zdNoteBlock(&#39;vm&#39;, zdText)}
-          ${dbNoteBlock(&#39;vm&#39;, ref)}
+          ${zdNoteBlock('vm', zdText)}
+          ${dbNoteBlock('vm', ref)}
           <div class="done-badge" style="margin-top:16px;">✅ Voicemail escalation complete</div>
           <div class="btn-row">
             ${backBtn()}
@@ -501,7 +509,7 @@ function getStepHTML(step) {
         </div>`;
     }
 
-    case &#39;LIVE_FORM&#39;: return `
+    case 'LIVE_FORM': return `
       <div class="step-header">
         <div class="step-icon orange">🎧</div>
         <div><div class="step-label">Live Call</div><div class="step-title">Collect details from FedEx agent</div></div>
@@ -510,18 +518,18 @@ function getStepHTML(step) {
         <div class="callout warn"><span class="callout-icon">📋</span><span>Ask the FedEx agent for the following. Tracking # and Reference # can be left blank if not available.</span></div>
         <div class="field-group" style="margin-top:14px;">
           <div class="field-row">
-            <div class="field"><label>Tracking #</label><input id="live-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.live.tracking||&#39;&#39;)}"></div>
-            <div class="field"><label>Reference #</label><input id="live-reference" placeholder="e.g. 226060904682" value="${escapeHtml(state.live.reference||&#39;&#39;)}"></div>
+            <div class="field"><label>Tracking #</label><input id="live-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.live.tracking||'')}"></div>
+            <div class="field"><label>Reference #</label><input id="live-reference" placeholder="e.g. 226060904682" value="${escapeHtml(state.live.reference||'')}"></div>
           </div>
-          <div class="field"><label>Undeliverable Reason</label><input id="live-reason" placeholder="e.g. Address not found, Refused, Unknown recipient" value="${escapeHtml(state.live.reason||&#39;&#39;)}"></div>
+          <div class="field"><label>Undeliverable Reason</label><input id="live-reason" placeholder="e.g. Address not found, Refused, Unknown recipient" value="${escapeHtml(state.live.reason||'')}"></div>
         </div>
         <div class="btn-row">
           ${backBtn()}
-          <button class="action-btn primary" onclick="submitLive()">Continue &amp;#8594; Search for Order</button>
+          <button class="action-btn primary" onclick="submitLive()">Continue &#8594; Search for Order</button>
         </div>
       </div>`;
 
-    case &#39;LIVE_SEARCH_REF&#39;: return `
+    case 'LIVE_SEARCH_REF': return `
       <div class="step-header">
         <div class="step-icon blue">🔍</div>
         <div><div class="step-label">Live Call / Search</div><div class="step-title">Look up order by Reference #</div></div>
@@ -531,7 +539,7 @@ function getStepHTML(step) {
         <div class="search-box">
           <div class="search-label">Open Order in Bizee</div>
           <div class="search-row">
-            <input id="ref-input" placeholder="Reference / Order #" value="${escapeHtml(state.live.reference||&#39;&#39;)}">
+            <input id="ref-input" placeholder="Reference / Order #" value="${escapeHtml(state.live.reference||'')}">
             <button class="search-btn" onclick="openRef()">🔗 Open in Bizee</button>
           </div>
           <div class="search-hint">Opens <code>bizee.tech/incfile/order/detail/[ref#]</code> directly.</div>
@@ -544,17 +552,17 @@ function getStepHTML(step) {
         <div class="btn-row" style="margin-top:16px;">${backBtn()}</div>
       </div>`;
 
-    case &#39;LIVE_SEARCH_NAME&#39;: return `
+    case 'LIVE_SEARCH_NAME': return `
       <div class="step-header">
         <div class="step-icon blue">🔍</div>
-        <div><div class="step-label">Live Call / Search by Name</div><div class="step-title">Request recipient&#39;s full name &amp; search</div></div>
+        <div><div class="step-label">Live Call / Search by Name</div><div class="step-title">Request recipient's full name & search</div></div>
       </div>
       <div class="step-body">
-        <div class="callout warn"><span class="callout-icon">⚠️</span><span>No reference number was provided. Ask FedEx for the <b>recipient&#39;s full name</b> and search by it.</span></div>
+        <div class="callout warn"><span class="callout-icon">⚠️</span><span>No reference number was provided. Ask FedEx for the <b>recipient's full name</b> and search by it.</span></div>
         <div class="search-box">
           <div class="search-label">Search Bizee Orders by Name</div>
           <div class="search-row">
-            <input id="live-name" placeholder="e.g. John Smith" value="${escapeHtml(state.live.name||&#39;&#39;)}">
+            <input id="live-name" placeholder="e.g. John Smith" value="${escapeHtml(state.live.name||'')}">
             <button class="search-btn" onclick="openNameSearch()">🔗 Search in Bizee</button>
           </div>
           <div class="search-hint">
@@ -579,17 +587,17 @@ function getStepHTML(step) {
         <div class="btn-row" style="margin-top:16px;">${backBtn()}</div>
       </div>`;
 
-    case &#39;LIVE_FOUND&#39;: return `
+    case 'LIVE_FOUND': return `
       <div class="step-header">
         <div class="step-icon green">✅</div>
-        <div><div class="step-label">Order Found</div><div class="step-title">Return to Sender / Confirm &amp; Document</div></div>
+        <div><div class="step-label">Order Found</div><div class="step-title">Return to Sender / Confirm & Document</div></div>
       </div>
       <div class="step-body">
         <div class="callout success"><span class="callout-icon">📦</span><span>Order found! <b>Ask FedEx to return the package to sender</b>, then fill in the details and generate the notes.</span></div>
         <div class="field-group" style="margin:14px 0;">
           <div class="field-row">
-            <div class="field"><label>Order # (from Bizee)</label><input id="rts-order" placeholder="e.g. 226060904682" value="${escapeHtml(state.live.reference||&#39;&#39;)}"></div>
-            <div class="field"><label>Tracking #</label><input id="rts-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.live.tracking||&#39;&#39;)}"></div>
+            <div class="field"><label>Order # (from Bizee)</label><input id="rts-order" placeholder="e.g. 226060904682" value="${escapeHtml(state.live.reference||'')}"></div>
+            <div class="field"><label>Tracking #</label><input id="rts-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.live.tracking||'')}"></div>
           </div>
         </div>
         <div class="btn-row">
@@ -597,30 +605,30 @@ function getStepHTML(step) {
           <button class="action-btn primary" onclick="generateRTS()">Generate Notes</button>
         </div>
         <div id="rts-output" style="display:none;margin-top:16px;">
-          ${zdNoteBlock(&#39;rts&#39;, &#39;&#39;)}
-          ${dbNoteBlock(&#39;rts&#39;, state.live.reference || &#39;&#39;)}
+          ${zdNoteBlock('rts', '')}
+          ${dbNoteBlock('rts', state.live.reference || '')}
           <div class="done-badge" style="margin-top:16px;">✅ Return to Sender complete</div>
           <div class="btn-row"><button class="action-btn secondary" onclick="restart()">↺ Handle another call</button></div>
         </div>
       </div>`;
 
-    case &#39;LIVE_NOT_FOUND&#39;: return `
+    case 'LIVE_NOT_FOUND': return `
       <div class="step-header">
         <div class="step-icon red">❓</div>
-        <div><div class="step-label">Order Not Found</div><div class="step-title">Get package location &amp; escalate</div></div>
+        <div><div class="step-label">Order Not Found</div><div class="step-title">Get package location & escalate</div></div>
       </div>
       <div class="step-body">
         <div class="callout escalate"><span class="callout-icon">🚨</span><span>The order could not be found. Ask FedEx for the <b>package location</b>, then escalate.</span></div>
         <div class="field-group" style="margin:14px 0;">
-          <div class="field"><label>Recipient Name</label><input id="nf-name" placeholder="As provided by FedEx" value="${escapeHtml(state.live.name||&#39;&#39;)}"></div>
-          <div class="field"><label>Package Location (ask FedEx now)</label><input id="nf-location" placeholder="e.g. FedEx facility, 123 Main St, Austin TX 78701" value="${escapeHtml(state.live.packageLocation||&#39;&#39;)}"></div>
+          <div class="field"><label>Recipient Name</label><input id="nf-name" placeholder="As provided by FedEx" value="${escapeHtml(state.live.name||'')}"></div>
+          <div class="field"><label>Package Location (ask FedEx now)</label><input id="nf-location" placeholder="e.g. FedEx facility, 123 Main St, Austin TX 78701" value="${escapeHtml(state.live.packageLocation||'')}"></div>
         </div>
         <div class="btn-row">
           ${backBtn()}
           <button class="action-btn danger" onclick="generateEsc()">Generate Escalation Note</button>
         </div>
         <div id="esc-output" style="display:none;margin-top:16px;">
-          ${zdNoteBlock(&#39;esc&#39;, &#39;&#39;)}
+          ${zdNoteBlock('esc', '')}
           <div class="callout escalate" style="margin:8px 0;"><span class="callout-icon">📤</span><span>Copy the <b>Zendesk note</b> above and click <a href="https://bizee.tech/order-tracker/orders/order-search" target="_blank" class="note-link" style="color:#991b1b;font-weight:700;text-decoration:underline;">RA/VA Mail Escalations Box ↗</a> to paste it.</span></div>
           <div class="done-badge">✅ Escalation note ready</div>
           <div class="btn-row"><button class="action-btn secondary" onclick="restart()">↺ Handle another call</button></div>
@@ -635,170 +643,174 @@ function getStepHTML(step) {
 function go(type) {
   saveHistory();
   state.callType = type;
-  const next = type === &#39;voicemail&#39; ? &#39;VM_FORM&#39; : &#39;LIVE_FORM&#39;;
+  const next = type === 'voicemail' ? 'VM_FORM' : 'LIVE_FORM';
   state.step = next; pushTrail(next); render();
 }
 
 function submitVM() {
   saveHistory();
   state.vm = {
-    tracking:  document.getElementById(&#39;vm-tracking&#39;)?.value.trim()  || &#39;&#39;,
-    reference: document.getElementById(&#39;vm-reference&#39;)?.value.trim() || &#39;&#39;,
-    name:      document.getElementById(&#39;vm-name&#39;)?.value.trim()      || &#39;&#39;,
-    location:  document.getElementById(&#39;vm-location&#39;)?.value.trim()  || &#39;&#39;,
-    reason:    document.getElementById(&#39;vm-reason&#39;)?.value.trim()    || &#39;&#39;,
+    tracking:  document.getElementById('vm-tracking')?.value.trim()  || '',
+    reference: document.getElementById('vm-reference')?.value.trim() || '',
+    name:      document.getElementById('vm-name')?.value.trim()      || '',
+    location:  document.getElementById('vm-location')?.value.trim()  || '',
+    reason:    document.getElementById('vm-reason')?.value.trim()    || '',
   };
-  state.step = &#39;VM_ESCALATE&#39;; pushTrail(&#39;VM_ESCALATE&#39;); render();
+  state.step = 'VM_ESCALATE'; pushTrail('VM_ESCALATE'); render();
 }
 
 function submitLive() {
   saveHistory();
   state.live = {
     ...state.live,
-    tracking:  document.getElementById(&#39;live-tracking&#39;)?.value.trim()  || &#39;&#39;,
-    reference: document.getElementById(&#39;live-reference&#39;)?.value.trim() || &#39;&#39;,
-    reason:    document.getElementById(&#39;live-reason&#39;)?.value.trim()    || &#39;&#39;,
+    tracking:  document.getElementById('live-tracking')?.value.trim()  || '',
+    reference: document.getElementById('live-reference')?.value.trim() || '',
+    reason:    document.getElementById('live-reason')?.value.trim()    || '',
   };
-  const next = state.live.reference ? &#39;LIVE_SEARCH_REF&#39; : &#39;LIVE_SEARCH_NAME&#39;;
+  const next = state.live.reference ? 'LIVE_SEARCH_REF' : 'LIVE_SEARCH_NAME';
   state.step = next; pushTrail(next); render();
 }
 
 function openRef() {
-  const ref = document.getElementById(&#39;ref-input&#39;)?.value.trim() || state.live.reference || &#39;&#39;;
-  window.open(`https://bizee.tech/incfile/order/detail/${encodeURIComponent(ref)}`, &#39;_blank&#39;);
+  const ref = document.getElementById('ref-input')?.value.trim() || state.live.reference || '';
+  window.open(`https://bizee.tech/incfile/order/detail/${encodeURIComponent(ref)}`, '_blank');
 }
 
 function openNameSearch() {
-  const name = document.getElementById(&#39;live-name&#39;)?.value.trim() || &#39;&#39;;
+  const name = document.getElementById('live-name')?.value.trim() || '';
   state.live.name = name;
-  window.open(&#39;https://bizee.tech/order-tracker/orders/order-search&#39;, &#39;_blank&#39;);
+  window.open('https://bizee.tech/order-tracker/orders/order-search', '_blank');
   // Use execCommand to copy without triggering permission prompt
-  const ta = document.createElement(&#39;textarea&#39;);
+  const ta = document.createElement('textarea');
   ta.value = name;
-  ta.style.cssText = &#39;position:fixed;top:-999px;left:-999px;opacity:0;&#39;;
+  ta.style.cssText = 'position:fixed;top:-999px;left:-999px;opacity:0;';
   document.body.appendChild(ta);
   ta.focus(); ta.select();
-  try { document.execCommand(&#39;copy&#39;); } catch(e) {}
+  try { document.execCommand('copy'); } catch(e) {}
   document.body.removeChild(ta);
   // Also try modern API silently
   if (navigator.clipboard) navigator.clipboard.writeText(name).catch(() => {});
-  const banner = document.getElementById(&#39;name-banner&#39;);
-  const nameEl = document.getElementById(&#39;banner-name-val&#39;);
-  if (banner) banner.style.display = &#39;flex&#39;;
+  const banner = document.getElementById('name-banner');
+  const nameEl = document.getElementById('banner-name-val');
+  if (banner) banner.style.display = 'flex';
   if (nameEl)  nameEl.textContent = name;
 }
 
 function refFound(found) {
   saveHistory();
-  state.live.reference = document.getElementById(&#39;ref-input&#39;)?.value.trim() || state.live.reference || &#39;&#39;;
-  if (found) { state.step = &#39;LIVE_FOUND&#39;;       pushTrail(&#39;LIVE_FOUND&#39;); }
-  else        { state.step = &#39;LIVE_SEARCH_NAME&#39;; pushTrail(&#39;LIVE_SEARCH_NAME&#39;); }
+  state.live.reference = document.getElementById('ref-input')?.value.trim() || state.live.reference || '';
+  if (found) { state.step = 'LIVE_FOUND';       pushTrail('LIVE_FOUND'); }
+  else        { state.step = 'LIVE_SEARCH_NAME'; pushTrail('LIVE_SEARCH_NAME'); }
   render();
 }
 
 function nameFound(found) {
   saveHistory();
-  state.live.name = document.getElementById(&#39;live-name&#39;)?.value.trim() || state.live.name || &#39;&#39;;
-  if (found) { state.step = &#39;LIVE_FOUND&#39;;     pushTrail(&#39;LIVE_FOUND&#39;); }
-  else        { state.step = &#39;LIVE_NOT_FOUND&#39;; pushTrail(&#39;LIVE_NOT_FOUND&#39;); }
+  state.live.name = document.getElementById('live-name')?.value.trim() || state.live.name || '';
+  if (found) { state.step = 'LIVE_FOUND';     pushTrail('LIVE_FOUND'); }
+  else        { state.step = 'LIVE_NOT_FOUND'; pushTrail('LIVE_NOT_FOUND'); }
   render();
 }
 
 // ── Generate ──────────────────────────────────────────────────────────────────
 function generateRTS() {
-  const orderNum    = document.getElementById(&#39;rts-order&#39;)?.value.trim()    || state.live.reference || &#39;N/A&#39;;
-  const trackingNum = document.getElementById(&#39;rts-tracking&#39;)?.value.trim() || state.live.tracking  || &#39;N/A&#39;;
+  const orderNum    = document.getElementById('rts-order')?.value.trim()    || state.live.reference || 'N/A';
+  const trackingNum = document.getElementById('rts-tracking')?.value.trim() || state.live.tracking  || 'N/A';
   state.live.orderNum = orderNum;
 
-  const zdEl = document.getElementById(&#39;rts-zd-text&#39;);
+  const zdEl = document.getElementById('rts-zd-text');
   if (zdEl) zdEl.textContent = buildRTSZDNote({ orderNum, trackingNum, reason: state.live.reason });
 
-  document.getElementById(&#39;rts-output&#39;).style.display = &#39;block&#39;;
+  document.getElementById('rts-output').style.display = 'block';
+  setTimeout(reportHeight, 80);
+  setTimeout(reportHeight, 400);
   setTimeout(() => {
-    const dbOrder = document.getElementById(&#39;rts-db-order&#39;);
-    if (dbOrder &amp;&amp; orderNum !== &#39;N/A&#39;) { dbOrder.value = orderNum; refreshDB(&#39;rts&#39;); }
+    const dbOrder = document.getElementById('rts-db-order');
+    if (dbOrder && orderNum !== 'N/A') { dbOrder.value = orderNum; refreshDB('rts'); }
   }, 0);
 }
 
 function generateEsc() {
-  const name     = document.getElementById(&#39;nf-name&#39;)?.value.trim()     || state.live.name || &#39;&#39;;
-  const location = document.getElementById(&#39;nf-location&#39;)?.value.trim() || &#39;&#39;;
+  const name     = document.getElementById('nf-name')?.value.trim()     || state.live.name || '';
+  const location = document.getElementById('nf-location')?.value.trim() || '';
   state.live.name = name; state.live.packageLocation = location;
 
-  const zdEl = document.getElementById(&#39;esc-zd-text&#39;);
+  const zdEl = document.getElementById('esc-zd-text');
   if (zdEl) zdEl.textContent = buildEscZDNote({ tracking: state.live.tracking, reference: state.live.reference, name, reason: state.live.reason, location });
 
-  document.getElementById(&#39;esc-output&#39;).style.display = &#39;block&#39;;
+  document.getElementById('esc-output').style.display = 'block';
+  setTimeout(reportHeight, 80);
+  setTimeout(reportHeight, 400);
 }
 
 // ── ZD Note templates ─────────────────────────────────────────────────────────
 function buildVMZDNote(vm) {
-  const now = new Date().toLocaleString(&#39;en-US&#39;, { dateStyle: &#39;medium&#39;, timeStyle: &#39;short&#39; });
+  const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
   return [
     `📦 FedEx Undeliverable Package — Voicemail Received`,
     `Date/Time: ${now}`,
     ``,
-    `Tracking #:           ${vm.tracking  || &#39;Not provided&#39;}`,
-    `Reference #:          ${vm.reference || &#39;Not provided&#39;}`,
-    `Recipient Name:       ${vm.name      || &#39;Not provided&#39;}`,
-    `Package Location:     ${vm.location  || &#39;Not provided&#39;}`,
-    `Undeliverable Reason: ${vm.reason    || &#39;Not provided&#39;}`,
-  ].join(&#39;\n&#39;);
+    `Tracking #:           ${vm.tracking  || 'Not provided'}`,
+    `Reference #:          ${vm.reference || 'Not provided'}`,
+    `Recipient Name:       ${vm.name      || 'Not provided'}`,
+    `Package Location:     ${vm.location  || 'Not provided'}`,
+    `Undeliverable Reason: ${vm.reason    || 'Not provided'}`,
+  ].join('\n');
 }
 function buildRTSZDNote({ orderNum, trackingNum, reason }) {
-  const now = new Date().toLocaleString(&#39;en-US&#39;, { dateStyle: &#39;medium&#39;, timeStyle: &#39;short&#39; });
+  const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
   return [
     `📦 FedEx Undeliverable Package — Return to Sender Confirmed`,
     `Date/Time: ${now}`,
     ``,
     `Order #:              ${orderNum}`,
     `Tracking #:           ${trackingNum}`,
-    `Undeliverable Reason: ${reason || &#39;Not specified&#39;}`,
+    `Undeliverable Reason: ${reason || 'Not specified'}`,
     ``,
     `Action: FedEx agent contacted via live call. Requested the package be returned`,
     `to sender. FedEx confirmed the package is being sent back.`,
-  ].join(&#39;\n&#39;);
+  ].join('\n');
 }
 function buildEscZDNote({ tracking, reference, name, reason, location }) {
-  const now = new Date().toLocaleString(&#39;en-US&#39;, { dateStyle: &#39;medium&#39;, timeStyle: &#39;short&#39; });
+  const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
   return [
     `📦 FedEx Undeliverable Package — Order NOT FOUND — Escalation Required`,
     `Date/Time: ${now}`,
     ``,
-    `Tracking #:           ${tracking  || &#39;Not provided&#39;}`,
-    `Reference #:          ${reference || &#39;Not provided&#39;}`,
-    `Recipient Name:       ${name      || &#39;Not provided&#39;}`,
-    `Undeliverable Reason: ${reason    || &#39;Not provided&#39;}`,
-    `Package Location:     ${location  || &#39;Not provided&#39;}`,
-  ].join(&#39;\n&#39;);
+    `Tracking #:           ${tracking  || 'Not provided'}`,
+    `Reference #:          ${reference || 'Not provided'}`,
+    `Recipient Name:       ${name      || 'Not provided'}`,
+    `Undeliverable Reason: ${reason    || 'Not provided'}`,
+    `Package Location:     ${location  || 'Not provided'}`,
+  ].join('\n');
 }
 
 // ── Copy (no permission prompt) ───────────────────────────────────────────────
 function copyEl(btnId, contentId) {
-  const content = document.getElementById(contentId)?.textContent || &#39;&#39;;
+  const content = document.getElementById(contentId)?.textContent || '';
   // execCommand first — no browser permission prompt
-  const ta = document.createElement(&#39;textarea&#39;);
+  const ta = document.createElement('textarea');
   ta.value = content;
-  ta.style.cssText = &#39;position:fixed;top:-999px;left:-999px;opacity:0;&#39;;
+  ta.style.cssText = 'position:fixed;top:-999px;left:-999px;opacity:0;';
   document.body.appendChild(ta);
   ta.focus(); ta.select();
   let ok = false;
-  try { ok = document.execCommand(&#39;copy&#39;); } catch(e) {}
+  try { ok = document.execCommand('copy'); } catch(e) {}
   document.body.removeChild(ta);
   // Fallback to modern API if execCommand failed
-  if (!ok &amp;&amp; navigator.clipboard) navigator.clipboard.writeText(content).catch(()=>{});
+  if (!ok && navigator.clipboard) navigator.clipboard.writeText(content).catch(()=>{});
   const btn = document.getElementById(btnId);
   if (btn) {
-    btn.textContent = &#39;✅ Copied!&#39;; btn.classList.add(&#39;copied&#39;);
-    setTimeout(() => { btn.textContent = &#39;📋 Copy&#39;; btn.classList.remove(&#39;copied&#39;); }, 2000);
+    btn.textContent = '✅ Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
   }
 }
 
-function escapeHtml(s) { return (s||&#39;&#39;).replace(/&amp;/g,&#39;&amp;amp;&#39;).replace(/</g,&#39;&amp;lt;&#39;).replace(/>/g,&#39;&amp;gt;&#39;).replace(/"/g,&#39;&amp;quot;&#39;); }
+function escapeHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 function restart() {
   history = [];
-  state = { step:&#39;CALL_TYPE&#39;, callType:null, vm:{}, live:{}, trail:[&#39;CALL_TYPE&#39;] };
+  state = { step:'CALL_TYPE', callType:null, vm:{}, live:{}, trail:['CALL_TYPE'] };
   render();
 }
 
@@ -806,4 +818,3 @@ render();
 </script>
 </body>
 </html>
-' width='100%' height='950' frameborder='0' style='border:none;border-radius:8px;display:block;'></iframe>

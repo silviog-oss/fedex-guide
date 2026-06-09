@@ -1,0 +1,809 @@
+<iframe srcdoc='<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FedEx Undeliverable Package — Bizee Guide</title>
+<style>
+  @import url(&#39;https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap&#39;);
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --orange:       #E8450A;
+    --orange-light: #fff4ee;
+    --orange-mid:   #ffd4bf;
+    --fedex-purple: #4D148C;
+    --fedex-orange: #FF6200;
+    --step-bg:  #ffffff;
+    --page-bg:  #f5f5f5;
+    --border:   #e8e8e8;
+    --text:     #1f1f1f;
+    --muted:    #6b7280;
+    --success:  #16a34a; --success-bg: #f0fdf4;
+    --warn-bg:  #fff9f5; --warn-border: #ffd4bf;
+    --escalate-bg: #fef2f2; --escalate-border: #fecaca;
+    /* Zendesk note = orange */
+    --zd-bg: #fff4ee; --zd-border: #ffc4a0; --zd-text: #7c2d12;
+    /* DB note = blue-grey */
+    --db-bg: #f0f4ff; --db-border: #c7d7fe; --db-text: #1e3a8a;
+    --radius: 6px;
+    --radius-lg: 8px;
+    --shadow: 0 1px 4px rgba(0,0,0,0.08);
+    --shadow-lg: 0 2px 12px rgba(0,0,0,0.10);
+  }
+  body {
+    font-family: &#39;Inter&#39;, -apple-system, sans-serif;
+    background: var(--page-bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 16px 60px;
+  }
+
+  /* ── Header card ─────────────────────────────────────────────── */
+  .site-header {
+    max-width: 680px;
+    margin: 24px auto 24px;
+    padding: 16px 20px;
+    background: #fff3ec;
+    border-radius: var(--radius-lg);
+    border: 1px solid #f5c4a8;
+    border-left: 4px solid var(--orange);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .site-header-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+  .bizee-mark {
+    width: 40px; height: 40px;
+    background: var(--orange); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 900; color: white; letter-spacing: -1px;
+    flex-shrink: 0;
+  }
+  .site-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .site-header-sub { font-size: 12px; color: var(--muted); font-weight: 500; margin-top: 1px; }
+  .fedex-badge {
+    display: flex; align-items: center; gap: 2px; flex-shrink: 0;
+  }
+  .fedex-badge .fx { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
+  .fedex-badge .fx-fed { color: var(--fedex-purple); }
+  .fedex-badge .fx-ex  { color: var(--fedex-orange); }
+
+  /* ── Page content wrapper ───────────────────────────────────── */
+  .page-wrap { max-width: 680px; margin: 0 auto; }
+
+  /* ── Breadcrumb trail ───────────────────────────────────────── */
+  .trail { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  .trail-crumb {
+    font-size: 11px; font-weight: 500; color: var(--muted);
+    background: white; border: 1px solid var(--border);
+    border-radius: 4px; padding: 3px 8px; white-space: nowrap;
+  }
+  .trail-crumb.active { color: var(--orange); border-color: var(--orange-mid); background: var(--orange-light); }
+  .trail-sep { color: #d1d5db; font-size: 11px; }
+
+  /* ── Step card ──────────────────────────────────────────────── */
+  .step-card {
+    background: var(--step-bg);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin-bottom: 16px;
+    animation: slideIn 0.2s ease;
+  }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .step-header {
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+    background: #fafafa;
+  }
+  .step-icon {
+    width: 32px; height: 32px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .step-icon.orange { background: var(--orange-light); }
+  .step-icon.purple { background: #f3f0ff; }
+  .step-icon.blue   { background: #eff6ff; }
+  .step-icon.green  { background: #f0fdf4; }
+  .step-icon.red    { background: #fef2f2; }
+  .step-label { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--orange); }
+  .step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-top: 1px; }
+  .step-body  { padding: 20px; }
+
+  /* ── Choice buttons ─────────────────────────────────────────── */
+  .choices { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .choice-btn {
+    flex: 1; min-width: 130px;
+    padding: 14px 16px; border-radius: var(--radius-lg);
+    border: 1.5px solid var(--border); background: white;
+    cursor: pointer; font-family: &#39;Inter&#39;, sans-serif;
+    font-size: 14px; font-weight: 600; color: var(--text);
+    text-align: center; transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .choice-btn:hover          { border-color: var(--orange); background: var(--orange-light); color: var(--orange); }
+  .choice-btn .btn-icon      { font-size: 20px; }
+  .choice-btn.yes-btn        { border-color: #bbf7d0; }
+  .choice-btn.yes-btn:hover  { border-color: var(--success); background: #f0fdf4; color: var(--success); }
+  .choice-btn.no-btn         { border-color: #fecaca; }
+  .choice-btn.no-btn:hover   { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+
+  /* ── Form fields ────────────────────────────────────────────── */
+  .field-group { display: flex; flex-direction: column; gap: 12px; }
+  .field       { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .field input {
+    font-family: &#39;Inter&#39;, sans-serif; font-size: 14px;
+    padding: 9px 11px; border: 1.5px solid var(--border);
+    border-radius: var(--radius); color: var(--text); background: white;
+    transition: border-color 0.15s; outline: none;
+  }
+  .field input:focus { border-color: var(--orange); }
+  .field-row { display: flex; gap: 12px; } .field-row .field { flex: 1; }
+
+  /* ── Search box ─────────────────────────────────────────────── */
+  .search-box {
+    background: #fafafa; border: 1.5px solid var(--border);
+    border-radius: var(--radius-lg); padding: 14px; margin: 12px 0;
+  }
+  .search-box .search-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .search-row { display: flex; gap: 8px; }
+  .search-row input {
+    flex: 1; font-family: &#39;Inter&#39;, sans-serif; font-size: 14px;
+    padding: 9px 11px; border: 1.5px solid var(--border);
+    border-radius: var(--radius); color: var(--text); background: white;
+    outline: none; transition: border-color 0.15s;
+  }
+  .search-row input:focus { border-color: var(--orange); }
+  .search-btn {
+    padding: 9px 16px; background: var(--orange); color: white;
+    border: none; border-radius: var(--radius);
+    font-family: &#39;Inter&#39;, sans-serif; font-size: 13px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 5px;
+    transition: background 0.15s;
+  }
+  .search-btn:hover { background: #c73a08; }
+  .search-hint { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+
+  /* ── Callouts ───────────────────────────────────────────────── */
+  .callout { display: flex; gap: 10px; align-items: flex-start; padding: 11px 13px; border-radius: var(--radius); margin: 10px 0; font-size: 13px; line-height: 1.5; border-left: 3px solid; }
+  .callout.info     { background: #f0f4ff; border-color: #6b8cff; color: #1e3a8a; }
+  .callout.warn     { background: var(--warn-bg); border-color: var(--orange); color: #7c2d12; }
+  .callout.success  { background: var(--success-bg); border-color: var(--success); color: #14532d; }
+  .callout.escalate { background: var(--escalate-bg); border-color: #dc2626; color: #991b1b; }
+  .callout-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+  .callout b { font-weight: 700; }
+
+  /* ── Note blocks ────────────────────────────────────────────── */
+  .note-block { border-radius: var(--radius-lg); overflow: hidden; margin: 12px 0; border: 1.5px solid; }
+  .note-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 13px; border-bottom: 1.5px solid;
+  }
+  .note-block-header .tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 4px;
+  }
+  /* Zendesk = orange */
+  .note-block.zd { border-color: var(--zd-border); }
+  .note-block.zd .note-block-header { background: var(--zd-bg); border-bottom-color: var(--zd-border); }
+  .note-block.zd .tag { background: #ffc4a0; color: #7c2d12; }
+  .note-block.zd .note-body { background: #fffaf7; }
+  /* DB = blue */
+  .note-block.db { border-color: var(--db-border); }
+  .note-block.db .note-block-header { background: var(--db-bg); border-bottom-color: var(--db-border); }
+  .note-block.db .tag { background: var(--db-border); color: var(--db-text); }
+  .note-block.db .note-body { background: #f7f9ff; }
+
+  .note-body { padding: 13px; }
+  .note-inputs { display: flex; gap: 12px; margin-bottom: 10px; }
+  .note-inputs .field { flex: 1; max-width: 220px; }
+  .template-content {
+    font-size: 13px; line-height: 1.7; white-space: pre-wrap;
+    font-family: &#39;Inter&#39;, sans-serif; color: var(--text);
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 11px; margin-top: 6px;
+  }
+  .db-link { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; font-size: 12px; font-weight: 600; color: var(--orange); text-decoration: none; }
+  .db-link:hover { text-decoration: underline; }
+  .copy-btn {
+    display: flex; align-items: center; gap: 4px;
+    padding: 4px 10px; background: var(--orange); color: white;
+    border: none; border-radius: 4px;
+    font-family: &#39;Inter&#39;, sans-serif; font-size: 11px; font-weight: 600;
+    cursor: pointer; transition: background 0.15s;
+  }
+  .copy-btn:hover { background: #c73a08; } .copy-btn.copied { background: var(--success); }
+  .note-link { color: var(--orange); font-weight: 600; text-decoration: none; }
+  .note-link:hover { text-decoration: underline; }
+
+  /* ── Buttons ────────────────────────────────────────────────── */
+  .action-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 20px; border-radius: var(--radius); border: none;
+    font-family: &#39;Inter&#39;, sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; margin-top: 4px;
+  }
+  .action-btn.primary   { background: var(--orange); color: white; }
+  .action-btn.primary:hover  { background: #c73a08; }
+  .action-btn.danger    { background: #dc2626; color: white; }
+  .action-btn.danger:hover   { background: #b91c1c; }
+  .action-btn.secondary { background: white; color: var(--text); border: 1.5px solid var(--border); }
+  .action-btn.secondary:hover { background: #f5f5f5; }
+  .action-btn.back      { background: white; color: var(--muted); border: 1.5px solid var(--border); padding: 8px 14px; font-size: 13px; }
+  .action-btn.back:hover { background: #f5f5f5; color: var(--text); }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+
+  /* ── Done badge ─────────────────────────────────────────────── */
+  .done-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--success-bg); border: 1.5px solid #bbf7d0;
+    color: var(--success); font-size: 13px; font-weight: 600;
+    padding: 6px 14px; border-radius: 20px; margin-bottom: 10px;
+  }
+
+  /* ── Bottom bar ─────────────────────────────────────────────── */
+  .bottom-bar { max-width: 680px; margin: 8px auto 0; text-align: center; }
+  .restart-btn {
+    background: none; border: none; font-family: &#39;Inter&#39;, sans-serif;
+    font-size: 12px; font-weight: 500; color: var(--muted);
+    cursor: pointer; text-decoration: underline;
+  }
+  .restart-btn:hover { color: var(--text); }
+
+  /* ── Clipboard banner ───────────────────────────────────────── */
+  .clipboard-banner { display:none; background:#fffbeb; border:1.5px solid #fcd34d; border-left: 3px solid #f59e0b; border-radius: var(--radius); padding:12px 14px; margin:10px 0; flex-direction:column; gap:5px; }
+  .clipboard-banner .cb-head { font-size:13px; font-weight:700; color:#92400e; }
+  .clipboard-banner .cb-body { font-size:13px; color:#78350f; line-height:1.7; }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="site-header-left">
+    <div class="bizee-mark">b</div>
+    <div>
+      <div class="site-title">FedEx Undeliverable Package</div>
+      <div class="site-header-sub">Agent Protocol Guide</div>
+    </div>
+  </div>
+  <div class="fedex-badge">
+    <span class="fx fx-fed">Fed</span><span class="fx fx-ex">Ex</span>
+  </div>
+</div>
+
+<div class="page-wrap">
+  <div class="trail" id="trail"></div>
+  <div id="app"></div>
+</div>
+<div class="bottom-bar"><button class="restart-btn" onclick="restart()">↺ Start over</button></div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let state = { step: &#39;CALL_TYPE&#39;, callType: null, vm: {}, live: {}, trail: [&#39;CALL_TYPE&#39;] };
+// History stack for back button — each entry is a deep copy of state before the step change
+let history = [];
+
+const TRAIL = {
+  CALL_TYPE:&#39;Call Type&#39;, VM_FORM:&#39;Voicemail Info&#39;, VM_ESCALATE:&#39;Escalate&#39;,
+  LIVE_FORM:&#39;Live Call&#39;, LIVE_SEARCH_REF:&#39;Search by Ref #&#39;,
+  LIVE_SEARCH_NAME:&#39;Search by Name&#39;, LIVE_FOUND:&#39;Order Found&#39;, LIVE_NOT_FOUND:&#39;No Order&#39;,
+};
+
+// ── Render ────────────────────────────────────────────────────────────────────
+function render() {
+  renderTrail();
+  const app = document.getElementById(&#39;app&#39;);
+  app.innerHTML = &#39;&#39;;
+  const card = document.createElement(&#39;div&#39;);
+  card.className = &#39;step-card&#39;;
+  card.innerHTML = getStepHTML(state.step);
+  app.appendChild(card);
+}
+function renderTrail() {
+  document.getElementById(&#39;trail&#39;).innerHTML = state.trail.map((t,i) =>
+    `${i>0?&#39;<span class="trail-sep">›</span>&#39;:&#39;&#39;}<span class="trail-crumb${i===state.trail.length-1?&#39; active&#39;:&#39;&#39;}">${TRAIL[t]||t}</span>`
+  ).join(&#39;&#39;);
+}
+function pushTrail(s) { if (state.trail[state.trail.length-1]!==s) state.trail.push(s); }
+
+// Save state to history before navigating
+function saveHistory() {
+  history.push(JSON.parse(JSON.stringify(state)));
+}
+
+// Capture any currently visible form inputs into state before navigating
+function captureCurrentInputs() {
+  const s = state.step;
+  if (s === &#39;VM_FORM&#39;) {
+    state.vm = {
+      tracking:  document.getElementById(&#39;vm-tracking&#39;)?.value  ?? state.vm.tracking  ?? &#39;&#39;,
+      reference: document.getElementById(&#39;vm-reference&#39;)?.value ?? state.vm.reference ?? &#39;&#39;,
+      name:      document.getElementById(&#39;vm-name&#39;)?.value      ?? state.vm.name      ?? &#39;&#39;,
+      location:  document.getElementById(&#39;vm-location&#39;)?.value  ?? state.vm.location  ?? &#39;&#39;,
+      reason:    document.getElementById(&#39;vm-reason&#39;)?.value    ?? state.vm.reason    ?? &#39;&#39;,
+    };
+  } else if (s === &#39;LIVE_FORM&#39;) {
+    state.live = {
+      ...state.live,
+      tracking:  document.getElementById(&#39;live-tracking&#39;)?.value  ?? state.live.tracking  ?? &#39;&#39;,
+      reference: document.getElementById(&#39;live-reference&#39;)?.value ?? state.live.reference ?? &#39;&#39;,
+      reason:    document.getElementById(&#39;live-reason&#39;)?.value    ?? state.live.reason    ?? &#39;&#39;,
+    };
+  } else if (s === &#39;LIVE_SEARCH_REF&#39;) {
+    state.live = { ...state.live, reference: document.getElementById(&#39;ref-input&#39;)?.value ?? state.live.reference ?? &#39;&#39; };
+  } else if (s === &#39;LIVE_SEARCH_NAME&#39;) {
+    state.live = { ...state.live, name: document.getElementById(&#39;live-name&#39;)?.value ?? state.live.name ?? &#39;&#39; };
+  } else if (s === &#39;LIVE_FOUND&#39;) {
+    state.live = {
+      ...state.live,
+      reference: document.getElementById(&#39;rts-order&#39;)?.value    ?? state.live.reference ?? &#39;&#39;,
+      tracking:  document.getElementById(&#39;rts-tracking&#39;)?.value ?? state.live.tracking  ?? &#39;&#39;,
+    };
+  } else if (s === &#39;LIVE_NOT_FOUND&#39;) {
+    state.live = {
+      ...state.live,
+      name:            document.getElementById(&#39;nf-name&#39;)?.value     ?? state.live.name ?? &#39;&#39;,
+      packageLocation: document.getElementById(&#39;nf-location&#39;)?.value ?? state.live.packageLocation ?? &#39;&#39;,
+    };
+  }
+}
+
+function goBack() {
+  if (history.length === 0) return;
+  captureCurrentInputs(); // save whatever is typed right now before going back
+  state = history.pop();
+  render();
+}
+
+// ── Note block builders ───────────────────────────────────────────────────────
+function zdNoteBlock(pid, defaultContent) {
+  return `
+    <div class="note-block zd">
+      <div class="note-block-header">
+        <span class="tag">📋 Zendesk Note</span>
+        <button class="copy-btn" id="${pid}-zd-copy" onclick="copyEl(&#39;${pid}-zd-copy&#39;,&#39;${pid}-zd-text&#39;)">📋 Copy</button>
+      </div>
+      <div class="note-body">
+        <div class="template-content" id="${pid}-zd-text">${escapeHtml(defaultContent)}</div>
+      </div>
+    </div>`;
+}
+
+function dbNoteBlock(pid, defaultOrder) {
+  const initialText = dbNoteText(pid, &#39;[ticket #]&#39;, defaultOrder);
+  const orderLink   = defaultOrder
+    ? `<a id="${pid}-db-link" href="https://bizee.tech/incfile/order/detail/${escapeHtml(defaultOrder)}" target="_blank" class="db-link">🔗 Open Order ${escapeHtml(defaultOrder)} in Bizee ↗</a>`
+    : `<a id="${pid}-db-link" href="#" target="_blank" class="db-link" style="display:none;">🔗 Open Order in Bizee ↗</a>`;
+  return `
+    <div class="note-block db">
+      <div class="note-block-header">
+        <span class="tag">🗄️ DB Note</span>
+        <button class="copy-btn" id="${pid}-db-copy" onclick="copyEl(&#39;${pid}-db-copy&#39;,&#39;${pid}-db-text&#39;)">📋 Copy</button>
+      </div>
+      <div class="note-body">
+        <div class="note-inputs">
+          <div class="field">
+            <label>Ticket # <span style="font-size:11px;font-weight:400;color:#94a3b8;">(Zendesk)</span></label>
+            <input id="${pid}-db-ticket" placeholder="e.g. 2687374" oninput="refreshDB(&#39;${pid}&#39;)">
+          </div>
+          <div class="field">
+            <label>Order #</label>
+            <input id="${pid}-db-order" placeholder="e.g. 226060904682" value="${escapeHtml(defaultOrder)}" oninput="refreshDB(&#39;${pid}&#39;)">
+          </div>
+        </div>
+        <div class="template-content" id="${pid}-db-text" style="font-weight:500;">${escapeHtml(initialText)}</div>
+        ${orderLink}
+      </div>
+    </div>`;
+}
+
+const DB_LABELS = {
+  vm:  &#39;FedEx Undeliverable Package — Voicemail Received — Escalated to RA/VA&#39;,
+  rts: &#39;FedEx Undeliverable Package — Return to Sender Confirmed&#39;,
+};
+function dbNoteText(pid, ticket, order) {
+  return `${ticket || &#39;[ticket #]&#39;} / ${DB_LABELS[pid] || &#39;FedEx Undeliverable Package&#39;}`;
+}
+function refreshDB(pid) {
+  const ticket = document.getElementById(`${pid}-db-ticket`)?.value.trim() || &#39;[ticket #]&#39;;
+  const order  = document.getElementById(`${pid}-db-order`)?.value.trim()  || &#39;&#39;;
+  const textEl = document.getElementById(`${pid}-db-text`);
+  const linkEl = document.getElementById(`${pid}-db-link`);
+  if (textEl) textEl.textContent = dbNoteText(pid, ticket, order);
+  if (linkEl) {
+    if (order) {
+      linkEl.style.display = &#39;inline-flex&#39;;
+      linkEl.href = `https://bizee.tech/incfile/order/detail/${order}`;
+      linkEl.textContent = `🔗 Open Order ${order} in Bizee ↗`;
+    } else {
+      linkEl.style.display = &#39;none&#39;;
+    }
+  }
+}
+
+// ── Back button HTML ──────────────────────────────────────────────────────────
+function backBtn() {
+  return history.length > 0
+    ? `<button class="action-btn back" onclick="goBack()">← Back</button>`
+    : &#39;&#39;;
+}
+
+// ── Steps ─────────────────────────────────────────────────────────────────────
+function getStepHTML(step) {
+  switch(step) {
+
+    case &#39;CALL_TYPE&#39;: return `
+      <div class="step-header">
+        <div class="step-icon purple">📞</div>
+        <div><div class="step-label">Step 1</div><div class="step-title">Incoming FedEx Call / Undeliverable Package</div></div>
+      </div>
+      <div class="step-body">
+        <div class="callout info"><span class="callout-icon">ℹ️</span><span>FedEx is calling about a package that cannot be delivered. What type of call is this?</span></div>
+        <div class="choices" style="margin-top:16px;">
+          <button class="choice-btn voicemail" onclick="go(&#39;voicemail&#39;)">
+            <span class="btn-icon">📩</span><span>Voicemail</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">They left a message</span>
+          </button>
+          <button class="choice-btn live" onclick="go(&#39;live&#39;)">
+            <span class="btn-icon">🎧</span><span>Live Call</span>
+            <span style="font-size:11px;font-weight:400;color:var(--muted);">Agent is on the line</span>
+          </button>
+        </div>
+      </div>`;
+
+    case &#39;VM_FORM&#39;: return `
+      <div class="step-header">
+        <div class="step-icon purple">📩</div>
+        <div><div class="step-label">Voicemail</div><div class="step-title">Listen to voicemail &amp; fill in details</div></div>
+      </div>
+      <div class="step-body">
+        <div class="callout warn"><span class="callout-icon">🎙️</span><span>Listen to the voicemail and record all information below.</span></div>
+        <div class="field-group" style="margin-top:14px;">
+          <div class="field-row">
+            <div class="field"><label>Tracking #</label><input id="vm-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.vm.tracking||&#39;&#39;)}"></div>
+            <div class="field"><label>Reference #</label><input id="vm-reference" placeholder="e.g. 226060904682" value="${escapeHtml(state.vm.reference||&#39;&#39;)}"></div>
+          </div>
+          <div class="field"><label>Recipient Name</label><input id="vm-name" placeholder="Full name as stated in voicemail" value="${escapeHtml(state.vm.name||&#39;&#39;)}"></div>
+          <div class="field-row">
+            <div class="field"><label>Package Location</label><input id="vm-location" placeholder="e.g. FedEx facility, Austin TX" value="${escapeHtml(state.vm.location||&#39;&#39;)}"></div>
+            <div class="field"><label>Undeliverable Reason</label><input id="vm-reason" placeholder="e.g. Address not found, Refused" value="${escapeHtml(state.vm.reason||&#39;&#39;)}"></div>
+          </div>
+        </div>
+        <div class="btn-row">
+          ${backBtn()}
+          <button class="action-btn primary" onclick="submitVM()">Continue &amp;#8594; Generate Notes</button>
+        </div>
+      </div>`;
+
+    case &#39;VM_ESCALATE&#39;: {
+      const zdText = buildVMZDNote(state.vm);
+      const ref    = state.vm.reference || &#39;&#39;;
+      return `
+        <div class="step-header">
+          <div class="step-icon red">🚨</div>
+          <div><div class="step-label">Voicemail / Action Required</div><div class="step-title">Escalate to RA/VA Mail Escalations Box</div></div>
+        </div>
+        <div class="step-body">
+          <div class="callout escalate"><span class="callout-icon">🚨</span><span>Copy the <b>Zendesk note</b> below and click <a href="https://bizee.tech/order-tracker/orders/order-search" target="_blank" class="note-link" style="color:#991b1b;font-weight:700;text-decoration:underline;">RA/VA Mail Escalations Box ↗</a> to paste it. Then fill in the <b>DB note</b> below.</span></div>
+          ${zdNoteBlock(&#39;vm&#39;, zdText)}
+          ${dbNoteBlock(&#39;vm&#39;, ref)}
+          <div class="done-badge" style="margin-top:16px;">✅ Voicemail escalation complete</div>
+          <div class="btn-row">
+            ${backBtn()}
+            <button class="action-btn secondary" onclick="restart()">↺ Handle another call</button>
+          </div>
+        </div>`;
+    }
+
+    case &#39;LIVE_FORM&#39;: return `
+      <div class="step-header">
+        <div class="step-icon orange">🎧</div>
+        <div><div class="step-label">Live Call</div><div class="step-title">Collect details from FedEx agent</div></div>
+      </div>
+      <div class="step-body">
+        <div class="callout warn"><span class="callout-icon">📋</span><span>Ask the FedEx agent for the following. Tracking # and Reference # can be left blank if not available.</span></div>
+        <div class="field-group" style="margin-top:14px;">
+          <div class="field-row">
+            <div class="field"><label>Tracking #</label><input id="live-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.live.tracking||&#39;&#39;)}"></div>
+            <div class="field"><label>Reference #</label><input id="live-reference" placeholder="e.g. 226060904682" value="${escapeHtml(state.live.reference||&#39;&#39;)}"></div>
+          </div>
+          <div class="field"><label>Undeliverable Reason</label><input id="live-reason" placeholder="e.g. Address not found, Refused, Unknown recipient" value="${escapeHtml(state.live.reason||&#39;&#39;)}"></div>
+        </div>
+        <div class="btn-row">
+          ${backBtn()}
+          <button class="action-btn primary" onclick="submitLive()">Continue &amp;#8594; Search for Order</button>
+        </div>
+      </div>`;
+
+    case &#39;LIVE_SEARCH_REF&#39;: return `
+      <div class="step-header">
+        <div class="step-icon blue">🔍</div>
+        <div><div class="step-label">Live Call / Search</div><div class="step-title">Look up order by Reference #</div></div>
+      </div>
+      <div class="step-body">
+        <div class="callout info"><span class="callout-icon">🔍</span><span>Using Reference # <b>${escapeHtml(state.live.reference)}</b> — open the order directly in Bizee.</span></div>
+        <div class="search-box">
+          <div class="search-label">Open Order in Bizee</div>
+          <div class="search-row">
+            <input id="ref-input" placeholder="Reference / Order #" value="${escapeHtml(state.live.reference||&#39;&#39;)}">
+            <button class="search-btn" onclick="openRef()">🔗 Open in Bizee</button>
+          </div>
+          <div class="search-hint">Opens <code>bizee.tech/incfile/order/detail/[ref#]</code> directly.</div>
+        </div>
+        <p style="font-size:14px;font-weight:600;margin:14px 0 10px;">Were you able to find the order?</p>
+        <div class="choices">
+          <button class="choice-btn yes-btn" onclick="refFound(true)"><span class="btn-icon">✅</span><span>Yes / Order Found</span></button>
+          <button class="choice-btn no-btn" onclick="refFound(false)"><span class="btn-icon">❌</span><span>No / Not Found</span></button>
+        </div>
+        <div class="btn-row" style="margin-top:16px;">${backBtn()}</div>
+      </div>`;
+
+    case &#39;LIVE_SEARCH_NAME&#39;: return `
+      <div class="step-header">
+        <div class="step-icon blue">🔍</div>
+        <div><div class="step-label">Live Call / Search by Name</div><div class="step-title">Request recipient&#39;s full name &amp; search</div></div>
+      </div>
+      <div class="step-body">
+        <div class="callout warn"><span class="callout-icon">⚠️</span><span>No reference number was provided. Ask FedEx for the <b>recipient&#39;s full name</b> and search by it.</span></div>
+        <div class="search-box">
+          <div class="search-label">Search Bizee Orders by Name</div>
+          <div class="search-row">
+            <input id="live-name" placeholder="e.g. John Smith" value="${escapeHtml(state.live.name||&#39;&#39;)}">
+            <button class="search-btn" onclick="openNameSearch()">🔗 Search in Bizee</button>
+          </div>
+          <div class="search-hint">
+            Opens <a href="https://bizee.tech/order-tracker/orders/order-search" target="_blank" class="note-link">Bizee Order Search ↗</a> and copies the name to clipboard automatically.<br>
+            In the new tab: click the <b>top-right search bar</b>, paste with <b>Ctrl+V</b>, press <b>Enter</b>.
+          </div>
+        </div>
+        <div class="clipboard-banner" id="name-banner">
+          <div class="cb-head">📋 Name copied to clipboard!</div>
+          <div class="cb-body">
+            In the Bizee tab:<br>
+            1. Click the <b>search bar in the top-right</b><br>
+            2. Press <b>Ctrl+V</b> (Mac: Cmd+V) to paste: <b><span id="banner-name-val" style="background:#fef3c7;padding:1px 6px;border-radius:4px;"></span></b><br>
+            3. Press <b>Enter</b>
+          </div>
+        </div>
+        <p style="font-size:14px;font-weight:600;margin:14px 0 10px;">Were you able to find the order?</p>
+        <div class="choices">
+          <button class="choice-btn yes-btn" onclick="nameFound(true)"><span class="btn-icon">✅</span><span>Yes / Order Found</span></button>
+          <button class="choice-btn no-btn" onclick="nameFound(false)"><span class="btn-icon">❌</span><span>No / Not Found</span></button>
+        </div>
+        <div class="btn-row" style="margin-top:16px;">${backBtn()}</div>
+      </div>`;
+
+    case &#39;LIVE_FOUND&#39;: return `
+      <div class="step-header">
+        <div class="step-icon green">✅</div>
+        <div><div class="step-label">Order Found</div><div class="step-title">Return to Sender / Confirm &amp; Document</div></div>
+      </div>
+      <div class="step-body">
+        <div class="callout success"><span class="callout-icon">📦</span><span>Order found! <b>Ask FedEx to return the package to sender</b>, then fill in the details and generate the notes.</span></div>
+        <div class="field-group" style="margin:14px 0;">
+          <div class="field-row">
+            <div class="field"><label>Order # (from Bizee)</label><input id="rts-order" placeholder="e.g. 226060904682" value="${escapeHtml(state.live.reference||&#39;&#39;)}"></div>
+            <div class="field"><label>Tracking #</label><input id="rts-tracking" placeholder="e.g. 7489 0453 0731 5114" value="${escapeHtml(state.live.tracking||&#39;&#39;)}"></div>
+          </div>
+        </div>
+        <div class="btn-row">
+          ${backBtn()}
+          <button class="action-btn primary" onclick="generateRTS()">Generate Notes</button>
+        </div>
+        <div id="rts-output" style="display:none;margin-top:16px;">
+          ${zdNoteBlock(&#39;rts&#39;, &#39;&#39;)}
+          ${dbNoteBlock(&#39;rts&#39;, state.live.reference || &#39;&#39;)}
+          <div class="done-badge" style="margin-top:16px;">✅ Return to Sender complete</div>
+          <div class="btn-row"><button class="action-btn secondary" onclick="restart()">↺ Handle another call</button></div>
+        </div>
+      </div>`;
+
+    case &#39;LIVE_NOT_FOUND&#39;: return `
+      <div class="step-header">
+        <div class="step-icon red">❓</div>
+        <div><div class="step-label">Order Not Found</div><div class="step-title">Get package location &amp; escalate</div></div>
+      </div>
+      <div class="step-body">
+        <div class="callout escalate"><span class="callout-icon">🚨</span><span>The order could not be found. Ask FedEx for the <b>package location</b>, then escalate.</span></div>
+        <div class="field-group" style="margin:14px 0;">
+          <div class="field"><label>Recipient Name</label><input id="nf-name" placeholder="As provided by FedEx" value="${escapeHtml(state.live.name||&#39;&#39;)}"></div>
+          <div class="field"><label>Package Location (ask FedEx now)</label><input id="nf-location" placeholder="e.g. FedEx facility, 123 Main St, Austin TX 78701" value="${escapeHtml(state.live.packageLocation||&#39;&#39;)}"></div>
+        </div>
+        <div class="btn-row">
+          ${backBtn()}
+          <button class="action-btn danger" onclick="generateEsc()">Generate Escalation Note</button>
+        </div>
+        <div id="esc-output" style="display:none;margin-top:16px;">
+          ${zdNoteBlock(&#39;esc&#39;, &#39;&#39;)}
+          <div class="callout escalate" style="margin:8px 0;"><span class="callout-icon">📤</span><span>Copy the <b>Zendesk note</b> above and click <a href="https://bizee.tech/order-tracker/orders/order-search" target="_blank" class="note-link" style="color:#991b1b;font-weight:700;text-decoration:underline;">RA/VA Mail Escalations Box ↗</a> to paste it.</span></div>
+          <div class="done-badge">✅ Escalation note ready</div>
+          <div class="btn-row"><button class="action-btn secondary" onclick="restart()">↺ Handle another call</button></div>
+        </div>
+      </div>`;
+
+    default: return `<div class="step-body"><p>Unknown step</p></div>`;
+  }
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function go(type) {
+  saveHistory();
+  state.callType = type;
+  const next = type === &#39;voicemail&#39; ? &#39;VM_FORM&#39; : &#39;LIVE_FORM&#39;;
+  state.step = next; pushTrail(next); render();
+}
+
+function submitVM() {
+  saveHistory();
+  state.vm = {
+    tracking:  document.getElementById(&#39;vm-tracking&#39;)?.value.trim()  || &#39;&#39;,
+    reference: document.getElementById(&#39;vm-reference&#39;)?.value.trim() || &#39;&#39;,
+    name:      document.getElementById(&#39;vm-name&#39;)?.value.trim()      || &#39;&#39;,
+    location:  document.getElementById(&#39;vm-location&#39;)?.value.trim()  || &#39;&#39;,
+    reason:    document.getElementById(&#39;vm-reason&#39;)?.value.trim()    || &#39;&#39;,
+  };
+  state.step = &#39;VM_ESCALATE&#39;; pushTrail(&#39;VM_ESCALATE&#39;); render();
+}
+
+function submitLive() {
+  saveHistory();
+  state.live = {
+    ...state.live,
+    tracking:  document.getElementById(&#39;live-tracking&#39;)?.value.trim()  || &#39;&#39;,
+    reference: document.getElementById(&#39;live-reference&#39;)?.value.trim() || &#39;&#39;,
+    reason:    document.getElementById(&#39;live-reason&#39;)?.value.trim()    || &#39;&#39;,
+  };
+  const next = state.live.reference ? &#39;LIVE_SEARCH_REF&#39; : &#39;LIVE_SEARCH_NAME&#39;;
+  state.step = next; pushTrail(next); render();
+}
+
+function openRef() {
+  const ref = document.getElementById(&#39;ref-input&#39;)?.value.trim() || state.live.reference || &#39;&#39;;
+  window.open(`https://bizee.tech/incfile/order/detail/${encodeURIComponent(ref)}`, &#39;_blank&#39;);
+}
+
+function openNameSearch() {
+  const name = document.getElementById(&#39;live-name&#39;)?.value.trim() || &#39;&#39;;
+  state.live.name = name;
+  window.open(&#39;https://bizee.tech/order-tracker/orders/order-search&#39;, &#39;_blank&#39;);
+  // Use execCommand to copy without triggering permission prompt
+  const ta = document.createElement(&#39;textarea&#39;);
+  ta.value = name;
+  ta.style.cssText = &#39;position:fixed;top:-999px;left:-999px;opacity:0;&#39;;
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try { document.execCommand(&#39;copy&#39;); } catch(e) {}
+  document.body.removeChild(ta);
+  // Also try modern API silently
+  if (navigator.clipboard) navigator.clipboard.writeText(name).catch(() => {});
+  const banner = document.getElementById(&#39;name-banner&#39;);
+  const nameEl = document.getElementById(&#39;banner-name-val&#39;);
+  if (banner) banner.style.display = &#39;flex&#39;;
+  if (nameEl)  nameEl.textContent = name;
+}
+
+function refFound(found) {
+  saveHistory();
+  state.live.reference = document.getElementById(&#39;ref-input&#39;)?.value.trim() || state.live.reference || &#39;&#39;;
+  if (found) { state.step = &#39;LIVE_FOUND&#39;;       pushTrail(&#39;LIVE_FOUND&#39;); }
+  else        { state.step = &#39;LIVE_SEARCH_NAME&#39;; pushTrail(&#39;LIVE_SEARCH_NAME&#39;); }
+  render();
+}
+
+function nameFound(found) {
+  saveHistory();
+  state.live.name = document.getElementById(&#39;live-name&#39;)?.value.trim() || state.live.name || &#39;&#39;;
+  if (found) { state.step = &#39;LIVE_FOUND&#39;;     pushTrail(&#39;LIVE_FOUND&#39;); }
+  else        { state.step = &#39;LIVE_NOT_FOUND&#39;; pushTrail(&#39;LIVE_NOT_FOUND&#39;); }
+  render();
+}
+
+// ── Generate ──────────────────────────────────────────────────────────────────
+function generateRTS() {
+  const orderNum    = document.getElementById(&#39;rts-order&#39;)?.value.trim()    || state.live.reference || &#39;N/A&#39;;
+  const trackingNum = document.getElementById(&#39;rts-tracking&#39;)?.value.trim() || state.live.tracking  || &#39;N/A&#39;;
+  state.live.orderNum = orderNum;
+
+  const zdEl = document.getElementById(&#39;rts-zd-text&#39;);
+  if (zdEl) zdEl.textContent = buildRTSZDNote({ orderNum, trackingNum, reason: state.live.reason });
+
+  document.getElementById(&#39;rts-output&#39;).style.display = &#39;block&#39;;
+  setTimeout(() => {
+    const dbOrder = document.getElementById(&#39;rts-db-order&#39;);
+    if (dbOrder &amp;&amp; orderNum !== &#39;N/A&#39;) { dbOrder.value = orderNum; refreshDB(&#39;rts&#39;); }
+  }, 0);
+}
+
+function generateEsc() {
+  const name     = document.getElementById(&#39;nf-name&#39;)?.value.trim()     || state.live.name || &#39;&#39;;
+  const location = document.getElementById(&#39;nf-location&#39;)?.value.trim() || &#39;&#39;;
+  state.live.name = name; state.live.packageLocation = location;
+
+  const zdEl = document.getElementById(&#39;esc-zd-text&#39;);
+  if (zdEl) zdEl.textContent = buildEscZDNote({ tracking: state.live.tracking, reference: state.live.reference, name, reason: state.live.reason, location });
+
+  document.getElementById(&#39;esc-output&#39;).style.display = &#39;block&#39;;
+}
+
+// ── ZD Note templates ─────────────────────────────────────────────────────────
+function buildVMZDNote(vm) {
+  const now = new Date().toLocaleString(&#39;en-US&#39;, { dateStyle: &#39;medium&#39;, timeStyle: &#39;short&#39; });
+  return [
+    `📦 FedEx Undeliverable Package — Voicemail Received`,
+    `Date/Time: ${now}`,
+    ``,
+    `Tracking #:           ${vm.tracking  || &#39;Not provided&#39;}`,
+    `Reference #:          ${vm.reference || &#39;Not provided&#39;}`,
+    `Recipient Name:       ${vm.name      || &#39;Not provided&#39;}`,
+    `Package Location:     ${vm.location  || &#39;Not provided&#39;}`,
+    `Undeliverable Reason: ${vm.reason    || &#39;Not provided&#39;}`,
+  ].join(&#39;\n&#39;);
+}
+function buildRTSZDNote({ orderNum, trackingNum, reason }) {
+  const now = new Date().toLocaleString(&#39;en-US&#39;, { dateStyle: &#39;medium&#39;, timeStyle: &#39;short&#39; });
+  return [
+    `📦 FedEx Undeliverable Package — Return to Sender Confirmed`,
+    `Date/Time: ${now}`,
+    ``,
+    `Order #:              ${orderNum}`,
+    `Tracking #:           ${trackingNum}`,
+    `Undeliverable Reason: ${reason || &#39;Not specified&#39;}`,
+    ``,
+    `Action: FedEx agent contacted via live call. Requested the package be returned`,
+    `to sender. FedEx confirmed the package is being sent back.`,
+  ].join(&#39;\n&#39;);
+}
+function buildEscZDNote({ tracking, reference, name, reason, location }) {
+  const now = new Date().toLocaleString(&#39;en-US&#39;, { dateStyle: &#39;medium&#39;, timeStyle: &#39;short&#39; });
+  return [
+    `📦 FedEx Undeliverable Package — Order NOT FOUND — Escalation Required`,
+    `Date/Time: ${now}`,
+    ``,
+    `Tracking #:           ${tracking  || &#39;Not provided&#39;}`,
+    `Reference #:          ${reference || &#39;Not provided&#39;}`,
+    `Recipient Name:       ${name      || &#39;Not provided&#39;}`,
+    `Undeliverable Reason: ${reason    || &#39;Not provided&#39;}`,
+    `Package Location:     ${location  || &#39;Not provided&#39;}`,
+  ].join(&#39;\n&#39;);
+}
+
+// ── Copy (no permission prompt) ───────────────────────────────────────────────
+function copyEl(btnId, contentId) {
+  const content = document.getElementById(contentId)?.textContent || &#39;&#39;;
+  // execCommand first — no browser permission prompt
+  const ta = document.createElement(&#39;textarea&#39;);
+  ta.value = content;
+  ta.style.cssText = &#39;position:fixed;top:-999px;left:-999px;opacity:0;&#39;;
+  document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  let ok = false;
+  try { ok = document.execCommand(&#39;copy&#39;); } catch(e) {}
+  document.body.removeChild(ta);
+  // Fallback to modern API if execCommand failed
+  if (!ok &amp;&amp; navigator.clipboard) navigator.clipboard.writeText(content).catch(()=>{});
+  const btn = document.getElementById(btnId);
+  if (btn) {
+    btn.textContent = &#39;✅ Copied!&#39;; btn.classList.add(&#39;copied&#39;);
+    setTimeout(() => { btn.textContent = &#39;📋 Copy&#39;; btn.classList.remove(&#39;copied&#39;); }, 2000);
+  }
+}
+
+function escapeHtml(s) { return (s||&#39;&#39;).replace(/&amp;/g,&#39;&amp;amp;&#39;).replace(/</g,&#39;&amp;lt;&#39;).replace(/>/g,&#39;&amp;gt;&#39;).replace(/"/g,&#39;&amp;quot;&#39;); }
+
+function restart() {
+  history = [];
+  state = { step:&#39;CALL_TYPE&#39;, callType:null, vm:{}, live:{}, trail:[&#39;CALL_TYPE&#39;] };
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
+' width='100%' height='950' frameborder='0' style='border:none;border-radius:8px;display:block;'></iframe>

@@ -1,3 +1,980 @@
+
+Claude finished the response
+flowchart.pdf
+pdf
+
+1781022364659_image.png
+
+1781022478756_image.png
+png
+
+1781022511186_image.png
+i need to make this into an interactive guide where you click oneach step yes or no 
+
+it will be html 
+
+the flow will go like this, 
+
+Incoming fedex call
+is it a voicemail or live call (you click on the one it is)
+
+when you choose vouce mail it will ask for 
+- Tracking # - Reference # - Recipient Name - Package Location - Undeliverable reason
+and copy a tamplate with the uinfo you fill ed out then pass on to the next box 
+
+escalate to ra/va mail escalation box
+
+rout to would go is it a live call 
+
+Tracking # -  optional 
+Reference # -  optional 
+Undeliverable Reason
+
+it will ask you where you able to fin the order number by can you make it that it earches in this  like on the serch bar on the top right of the second image using the refernse number
+(https://bizee.tech/order-tracker/orders/order-search)
+
+if yes return to sender  and create the tambple - include Order & Tracking number - Confirmation that it is being sent back
+
+if no reference number is provided 
+
+the next box will ask you to find the full anme of the recipiant using the same search bar it will search outomaticly the name imputed if found them it will go to this step  if yes return to sender  and create the tambple - include Order & Tracking number - Confirmation that it is being sent back leaving notes  on the order example on thrid image. forth image is a refereace to where the notes go  https://bizee.tech/incfile/order/detail/226060904682
+
+if no order is found ask the agent to get the package location 
+then ask them to leave the note copied to Escalate to RA/VA Mail Escalations Box
+
+Show more
+10:29 AM
+
+Check available skills
+Check available skills
+Now let me build this. This is a fairly complex interactive flow tool — let me plan it carefully before coding.
+
+
+Created a file, read a file
+Created a file, read a file
+Here's your interactive FedEx Undeliverable Package guide! Here's how it works:
+
+Voicemail path:
+
+Select "Voicemail" → fill in Tracking #, Reference #, Recipient Name, Package Location, and Undeliverable Reason (all optional) → generates a ready-to-copy escalation note for the RA/VA Mail Escalations Box
+Live Call path:
+
+Select "Live Call" → enter tracking, reference #, and undeliverable reason
+If a Reference # was provided → opens Bizee order search pre-filled with that number → you confirm found/not found
+If no Reference # (or not found by ref) → asks for the recipient's full name → opens Bizee search by name → found/not found
+If found: generates a Return to Sender note with order # + tracking #, shows a direct link to that order in Bizee, and gives step-by-step instructions for leaving it in the Comments section
+If not found: prompts for package location → generates an escalation note to copy to the RA/VA Mail Escalations Box
+All templates have a one-click Copy button and timestamps auto-populate. A breadcrumb trail at the top tracks where you are in the flow.
+
+
+Fedex guide
+Code · HTML 
+1781023053007_image.png
+search funcion is not working, please have the search funcion us this link  but out in the reference number at the end [https://bizee.tech/incfile/order/detail/](https://bizee.tech/incfile/order/detail/226060904682)
+
+on the note, it should not say this No further action required unless package is not received.
+
+Request recipient's full name & search is not working , can you make a script that it opens https://bizee.tech/order-tracker/orders/order-search then goes to the top right and pasts the name in the search bar
+
+on step ❓
+Order Not Found
+Get package location & escalate
+
+do not put this last line 
+
+Escalated to RA/VA Mail Escalations Box for further investigation.
+
+Escalate
+🚨
+Voicemail — Action Required
+Escalate to RA/VA Mail Escalations Box
+last line not needed Action: Escalated to RA/VA Mail Escalations Box. Please follow up and coordinate return to sender.
+
+Show more
+10:39 AM
+
+Read current file
+Read current file
+Now I have a full picture. Let me make all the fixes:
+
+Reference # search → https://bizee.tech/incfile/order/detail/[refnum]
+RTS note → remove "No further action required..." line
+Name search → opens https://bizee.tech/order-tracker/orders/order-search then pastes into the top-right search bar via script
+Escalation note (not found) → remove last "Escalated to RA/VA Mail..." line
+VM escalation note → remove last "Action: Escalated..." line
+
+Edited 5 files
+Edited 5 files
+Now add the name search banner HTML and update the LIVE_SEARCH_NAME step to include it:
+
+
+Add name search instruction banner to LIVE_SEARCH_NAME step
+Add name search instruction banner to LIVE_SEARCH_NAME step
+Also update the ref search hint to reflect the new direct-link behavior:
+
+
+Edited a file, read a file
+Edited a file, read a file
+All fixes applied. Here's a summary of every change:
+
+🔍 Search fixes:
+
+Reference # search now opens https://bizee.tech/incfile/order/detail/[refnum] directly — goes straight to the order
+Name search opens https://bizee.tech/order-tracker/orders/order-search, automatically copies the name to clipboard, and shows a yellow step-by-step banner telling the agent: "Click the top-right search bar → Ctrl+V to paste → Enter to search" (direct browser scripting into another domain isn't possible due to browser security, so this is the most reliable approach)
+📝 Template cleanups:
+
+RTS note — removed "No further action required unless package is not received"
+Escalation note (order not found) — removed "Escalated to RA/VA Mail Escalations Box for further investigation"
+Voicemail escalation note — removed "Action: Escalated to RA/VA Mail Escalations Box. Please follow up and coordinate return to sender"
+
+Fedex guide
+Code · HTML 
+1781023422860_image.png
+1781023670532_image.png
+Live Call — Search by Name
+Request recipient's full name & search
+
+the two search bars in this section is redundant 
+
+remove all mdash at switch them to / 
+
+remove optional under reference number and tracking 
+
+for the  escalation note i need you to also get the compnay name  witch is located on the order details screenshot 2 is an example 
+
+for when its internal note on https://bizee.tech/incfile/order/detail/ it can be smaller but ask for the ticket number, on the note it should look like this  example  2687374 (ticekt number)   FedEx Undeliverable Package — Order NOT FOUND — Escalation Required
+
+Show more
+10:49 AM
+
+Viewed 2 files
+Viewed 2 files
+Good, I have everything I need. Now making all changes:
+
+
+Edited 4 files
+Edited 4 files
+Now update the LIVE_NOT_FOUND step to add company name field, ticket number field, and fix the escalation note format:
+
+
+Update LIVE_NOT_FOUND step to add company name and ticket number fields
+Update LIVE_NOT_FOUND step to add company name and ticket number fields
+Now update the generateEscalationNote function and add the internal note builder:
+
+
+Update generateEscalationNote to capture company name and populate internal note
+Update generateEscalationNote to capture company name and populate internal note
+Now update the escalation template builder to include company name, and add the internal note builder:
+
+
+Update escalation template to include company name and add internal note builder
+Update escalation template to include company name and add internal note builder
+Now fix remaining em dashes in the other steps:
+
+
+Edited 6 files, read a file
+Edited 6 files, read a file
+All changes applied. Here's what was updated:
+
+🔧 Search by Name — removed the redundant second input. Now there's just one field: type the name, hit "Open in Bizee," it opens the search page and auto-copies the name to clipboard with paste instructions.
+
+✂️ Em dashes — all — replaced with / throughout (step labels, titles, button text).
+
+🏷️ Labels — removed "(optional)" from Tracking # and Reference # on the live call form. The hint text now just says they can be left blank.
+
+📋 Escalation note (Order Not Found) — added a Company Name field. The RA/VA note now includes it at the top. Also added a separate compact Internal Note section below with a Ticket # field (live updates as you type), generating a note in the format:
+
+2687374 / FedEx Undeliverable Package — Order NOT FOUND — Escalation Required
+
+
+Fedex guide
+Code · HTML 
+in all senerios it should ask to leave a https://bizee.tech/incfile/order/detail/ note like mentioned but updated to each senerio 
+
+Live Call / Search by Name
+Request recipient's full name & search it is not automatily searching the name if  not possible just add a link to https://bizee.tech/order-tracker/orders/order-search and provide instructions to search the name but i would like it to automatily search 
+
+❓
+Order Not Found
+Get package location & escalate
+🚨The order could not be found. Ask FedEx for the package location, then escalate this case.
+Company Name (from order details if found) should not be there bc the company was not found, it should ask for the
+
+Order Not Found
+Get package location & escalate
+when generating the internal ticket is not possible since the roder was not found, apply this section to the other ending senerios expet this one
+
+Show less
+10:56 AM
+Let me read the full current file before making changes.
+
+
+Viewed 3 files
+Viewed 3 files
+Now I have the full picture. Let me rewrite the file cleanly with all the changes in one go — it's complex enough that a full rewrite is safer than many individual str_replaces.
+
+Summary of all changes:
+
+VM_ESCALATE — add Bizee order note section (ticket # + order # + internal note template + link)
+LIVE_FOUND — already has it, but add ticket # field and update internal note format
+LIVE_NOT_FOUND — remove company name field, remove internal note section entirely, keep only escalation note + RA/VA instructions
+Name search — add direct link fallback + keep clipboard copy approach
+LIVE_FOUND RTS note — add ticket # field for internal note
+
+Write the full updated file
+Write the full updated file
+Now I need to fix the generateRTS function — it has some messy leftover code — and also make sure the rts internal note block pre-seeds the order field correctly:
+
+
+Clean up generateRTS function
+Clean up generateRTS function
+The internalNoteBlock helper uses ${idPrefix}-order as the id for the order input inside it — but LIVE_FOUND also has rts-order for the main order field. Let me fix this by using distinct ids:
+
+
+Edited 2 files
+Edited 2 files
+Now also fix generateRTS to seed the note order field with the correct new id, and clean up:
+
+
+Clean up generateRTS to properly seed note order field
+Clean up generateRTS to properly seed note order field
+Also fix submitVM to seed the VM note order field:
+
+
+Edited a file, read a file
+Edited a file, read a file
+All changes are in. Here's a summary of everything updated:
+
+Internal Bizee note section — now on all ending scenarios except Order Not Found:
+
+Voicemail escalation — after the RA/VA note, now shows ticket # + order # fields and generates: 2687374 / FedEx Undeliverable Package — Voicemail Received — Escalated to RA/VA
+Live Call / Order Found (RTS) — same section, generates: 2687374 / FedEx Undeliverable Package — Return to Sender Confirmed
+Both include a direct link to bizee.tech/incfile/order/detail/[order#] and step-by-step instructions to paste into Comments
+Order Not Found — no internal note section (order doesn't exist), only the RA/VA escalation note
+Name search — one input field, "Search in Bizee" button opens order-tracker/orders/order-search, copies name to clipboard, and shows the paste instructions banner
+
+Order Not Found — removed Company Name field (can't know it if order wasn't found), replaced with Recipient Name field to capture what FedEx provided
+
+
+Fedex guide
+Code · HTML 
+to not get confused i need to seperate the two note typs, 
+
+zendesk notes / bize tech notes but will be refering to then as DB notes
+
+for voicemails i need both 
+
+for live call when the order number was not found only zendesk notes
+
+11:02 AM
+Let me read the current file first.
+
+Claude's response was interrupted.
+to not get confused i need to seperate the two note typs,
+zendesk notes - should look like this 
+bize tech notes but will be refering to then as DB notes - should look like this  123456 / FedEx Undeliverable Package — Voicemail Received — Escalated to RA/VA
+for voicemails i need both
+
+for live call when the order number was not found only zendesk notes
+when the order was found leave both
+
+Show more
+11:04 AM
+Let me read the current file first.
+
+
+Viewed 2 files
+Viewed 2 files
+Good, now I have the full picture. Let me understand exactly what's needed:
+
+Zendesk note = the full multi-line escalation/RTS note (already exists — just rename it clearly as "Zendesk Note")
+DB note = the short 123456 / FedEx Undeliverable Package — [label] one-liner for Bizee tech comments (currently called "internal note")
+The user still hasn't shared what the Zendesk note should look like ("should look like this" was cut off) — but based on context it's the existing full template. I'll label them clearly and separated.
+Rules:
+
+Voicemail → both Zendesk note + DB note
+Live call / Order Found → both
+Live call / Order Not Found → Zendesk note only (no DB note since no order exists)
+
+Ran a command, read a file
+Ran a command, read a file
+Here's what changed and how the two note types now work:
+
+📋 Zendesk Note (blue) — the full multi-line note with all the details (date, tracking, reference, reason, etc.). Pre-populated automatically, one-click copy. Shown in every scenario.
+
+🗄️ DB Note (teal) — the short Bizee Tech comment format: 2687374 / FedEx Undeliverable Package — [label]. Has Ticket # and Order # inputs that update the note live as you type, plus a direct link to open the order in Bizee and paste-into-Comments instructions.
+
+Per scenario:
+
+Voicemail → both Zendesk note + DB note ✅
+Live Call / Order Found → both Zendesk note + DB note ✅
+Live Call / Order Not Found → Zendesk note only (no DB note since there's no order to link) ✅
+
+Fedex guide
+Code · HTML 
+1781025022635_image.png
+1781025268209_image.png
+Delete this from all, everone knows how to add notes 
+
+📌 How to leave the note in Bizee
+
+Open the order: [Open Order 226060904682 in Bizee ↗](https://bizee.tech/incfile/order/detail/226060904682)
+On the right side, find the COMMENTS section
+Click "View All / Add Comment"
+Paste the note above and submit
+
+as shown in image 1 
+✅
+Order Found
+Return to Sender / Confirm & Document
+i dont like that you changed the Order number from right to left, always keep them on the same side
+
+🗄️ DB Note lets make this orange 
+
+🔍
+Live Call / Search by Name
+Request recipient's full name & search forthis section is there a way not to ask every time to allow to copy?  as shown in image 2
+
+i would also like to add a back button where the info was saved
+
+Show less
+11:14 AM
+
+Viewed 3 files
+Viewed 3 files
+Good, now I have everything. Let me make all the changes in one clean rewrite:
+
+Remove the "How to leave note in Bizee" instructions from DB note block — just keep the order link as a simple clickable link
+Fix Order # back to left, Tracking # to right in LIVE_FOUND
+DB Note color → orange
+Clipboard permission — use document.execCommand('copy') as primary (no permission prompt) instead of navigator.clipboard
+Back button that restores saved state
+
+Ran a command, read a file
+Ran a command, read a file
+All done. Here's what changed:
+
+✂️ "How to leave note" instructions removed — the DB note now just shows the note text and a simple "🔗 Open Order in Bizee ↗" link that updates as you type the order number.
+
+📋 Field order fixed — Order # is back on the left, Tracking # on the right in the Return to Sender step (and stays that way).
+
+🟠 DB Note is now orange — matches the warm orange palette, clearly distinct from the blue Zendesk note.
+
+📋 Clipboard — no more permission prompt — copy now uses document.execCommand('copy') (the old-style silent method) as the primary approach, which browsers allow without asking. The modern Clipboard API is only used as a silent fallback if execCommand fails.
+
+← Back button — every step now has a Back button that restores the previous step with all your filled-in data intact. Clicking back on the voicemail form, for example, returns you to the call type selection; backing out of the name search returns you to the live call form with your tracking/reference/reason still there.
+
+
+Fedex guide
+Code · HTML 
+the back button should save the last info the was typed 
+
+Paste the Zendesk note above into the RA/VA Mail Escalations Box.  - it should say Zendesk note  and click escalation box 
+
+Sorry BD should be blue and Zendesk note shoudl be orange
+
+11:23 AM
+
+Viewed 2 files
+Viewed 2 files
+Good. Now I have everything. Four targeted changes:
+
+Back button — save current form inputs into state before navigating back (collect fields at the moment of click)
+Escalation box callout — update text to say "Copy the Zendesk note above and click the RA/VA Mail Escalations Box"
+Swap colors — DB Note = blue, Zendesk Note = orange
+
+Edited 2 files
+Edited 2 files
+
+Swap colors: DB = blue, Zendesk = orange
+
+fedex-guide.html
++2
+-2
+
+Fix ZD tag to orange pill, DB tag to blue pill
+
+fedex-guide.html
++10
+-10
+Done
+Now fix the escalation callout text and make "RA/VA Mail Escalations Box" a clickable link:
+
+
+Fix escalation callout text and add clickable escalations box link
+Fix escalation callout text and add clickable escalations box link
+Now fix the back button to capture current form inputs into state before restoring history:
+
+
+Fix goBack to save current form inputs before going back
+Fix goBack to save current form inputs before going back
+
+Fix goBack to save current form inputs before going back
+
+fedex-guide.html
++43
+-9
+Done
+Now add saveHistory back as a standalone function (it was removed by the replacement — need to add it):
+
+
+Add saveHistory function back
+Add saveHistory function back
+Now also fix the VM_ESCALATE escalation callout to be consistent (it has a similar paste instruction):
+
+
+Edited a file, read a file
+Edited a file, read a file
+All done. Here's what changed:
+
+← Back button saves your work — clicking Back now captures whatever is currently typed in the visible fields (tracking, reference, name, location, etc.) into state before restoring the previous step. So you never lose what you typed.
+
+Colors swapped:
+
+🟠 Zendesk Note = orange
+🔵 DB Note = blue
+Escalation callout updated — now reads: "Copy the Zendesk note below and click RA/VA Mail Escalations Box ↗" — the escalations box is a clickable link so agents can jump straight to it, shown on both the voicemail escalate screen and the order-not-found screen.
+
+
+Fedex guide
+Code · HTML 
+1781026318943_image.png
+loooks perfect i jsut need to change the styling of it
+
+11:32 AM
+What styling changes do you want to make?
+
+Q: What would you like to change? (Select all that apply)
+A: Update card/border styling, Match Bizee/Zendesk orange brand colors, Change font style, Change background color, we ar using this type of styling please match wwhat you can of t
+
+Q: Overall vibe direction?
+A: Keep it clean & minimal
+
+11:32 AM
+Looking at the Zendesk screenshot — orange hero, clean white cards with orange borders, the Bizee logo mark — let me match that styling to the guide.
+
+
+Read current file to get full picture before restyling
+Read current file to get full picture before restyling
+Good. Now I'll restyle — matching the Zendesk/Bizee brand: orange (
+#E8450A / 
+#FF6200) as the primary accent, white cards with clean orange borders, the Bizee orange header strip, Inter font kept, minimal shadows, and orange CTAs instead of blue.
+
+
+Full restyle to match Bizee/Zendesk brand: orange primary, clean minimal white cards, orange header
+Full restyle to match Bizee/Zendesk brand: orange primary, clean minimal white cards, orange header
+Now replace the old header HTML with the new orange site-header, and move trail/app into the page-wrap:
+
+
+Replace old header + layout with new orange site-header and page-wrap
+Replace old header + layout with new orange site-header and page-wrap
+Now update the render function so the step-card sits inside the page-wrap correctly (it already does via #app), and fix the escalate note-link color to use orange instead of the old blue reference:
+
+
+Edited 2 files, read a file
+Edited 2 files, read a file
+Here's what changed visually to match the Bizee/Zendesk brand:
+
+Header — solid Bizee orange (
+#E8450A) bar across the top with the "b" logo mark in white, the tool title, and the FedEx badge — mirrors the Zendesk header you showed.
+
+Buttons & accents — all CTAs (Continue, Generate, Search, Copy) are now Bizee orange instead of blue. Focus states on inputs are orange too.
+
+Cards — white with a very light border and subtle shadow, flat and clean — matches the Zendesk Copenhagen card style.
+
+Step labels — now in orange uppercase text instead of grey, giving each step header a clear brand anchor.
+
+Callouts — use a left accent border instead of a full background border-box, which is cleaner and more in line with the minimal direction.
+
+Note blocks — border-radius and tag styling tightened up to feel more like the Zendesk UI components.
+
+Typography — Inter 800 weight used in the header, consistent tight uppercase labels throughout.
+
+
+Fedex guide
+Code · HTML 
+i dont like the new banner i liked the old one just make it more organ with an orange tited background but not to bright
+
+11:37 AM
+
+Viewed 3 files
+Viewed 3 files
+Now I know exactly what to change. The user wants to go back to the old card-style header (white card with left border) but with an orange-tinted background — not the full orange bar. Let me find the HTML for the site-header too:
+
+
+Viewed 2 files, ran a command
+Viewed 2 files, ran a command
+Now I have everything. Replace just the header CSS and HTML — back to the old card style but with a soft orange-tinted background:
+
+
+Replace site-header CSS with old card-style header CSS but orange-tinted
+Replace site-header CSS with old card-style header CSS but orange-tinted
+Now update the page-wrap to remove the top padding since the header is now inside the content flow, and update body padding:
+
+
+Edited 2 files
+Edited 2 files
+Now update the HTML header block to match the new card structure:
+
+
+Replace site-header HTML with new card-style orange-tinted header
+Replace site-header HTML with new card-style orange-tinted header
+Also fix the bottom-bar and trail to work within the new max-width flow:
+
+
+Edited a file, read a file
+Edited a file, read a file
+Back to the card-style header you liked, but now with a soft warm orange tint — 
+#fff3ec background with a 
+#f5c4a8 border and the signature 4px orange left accent stripe. The FedEx logo is back in its proper purple/orange colors, and the Bizee "b" mark sits in a solid orange square. Everything else stays the same.
+
+
+Fedex guide
+Code · HTML 
+great now i need to make a zzendesk article and have this live there how can i do that
+
+11:39 AM
+Great question. There are a few ways to host this in Zendesk, depending on what access you have.
+
+The simplest option — Zendesk Guide HTML article:
+
+In Zendesk, go to Guide → Add Article
+In the article editor, click the Source code button (< >) to switch to HTML mode
+Paste the entire contents of the HTML file between the <body> tags (everything from the <style> block through the closing </script>)
+Save and publish
+The catch is that Zendesk Guide strips <script> tags from articles by default for security reasons, which would break all the interactive logic.
+
+The better option — Zendesk Guide Custom Page or iframe:
+
+Since your guide is fully interactive JavaScript, the cleanest approach is to host the HTML file somewhere and embed it via iframe in the article. Good free options:
+
+GitHub Pages — since you already use GitHub (rp-bizeeknowledge), you can drop the file in a repo, enable Pages, and get a live URL in minutes
+Vercel — you already have Vercel connected, so you could deploy it there in one click
+Then in the Zendesk article you just embed:
+
+html
+<iframe src="YOUR_HOSTED_URL" width="100%" height="900px" frameborder="0"></iframe>
+Which would work best for you?
+
+Q: How do you want to host the guide?
+A: Just tell me how to do the Zendesk HTML workaround
+
+11:39 AM
+The key is that Zendesk strips <script> tags, but you can work around it using a Theme custom page instead of a regular article. Here's the cleanest path:
+
+Option 1 — Zendesk Theme Custom Page (best for full JS)
+
+This lets you have a fully interactive page that lives inside your Zendesk help center URL.
+
+In Zendesk Guide, click Customize design (the paintbrush icon)
+Click Edit code (bottom right — you have this, it's visible in your screenshot)
+In the left file tree, click Add → Add custom page
+Name it something like fedex-guide
+Paste the full HTML file contents there
+Save — it will be live at yourcompany.zendesk.com/hc/p/fedex-guide
+In Zendesk Guide, create a normal article titled "FedEx Undeliverable Package Guide" and just link to that URL
+Option 2 — Article with inline <script> via API (bypasses the editor restriction)
+
+Zendesk's article editor strips scripts, but the REST API does not. You can push the full HTML directly:
+
+bash
+curl https://yoursubdomain.zendesk.com/api/v2/help_center/articles \
+  -u email@company.com/token:YOUR_API_TOKEN \
+  -H "Content-Type: application/json" \
+  -d '{
+    "article": {
+      "title": "FedEx Undeliverable Package Guide",
+      "body": "PASTE_FULL_HTML_HERE",
+      "locale": "en-us",
+      "section_id": YOUR_SECTION_ID
+    }
+  }'
+Replace the body with your full HTML as a JSON-escaped string. The article will render with scripts intact.
+
+Option 3 — Simplest right now: iframe in an article
+
+Even without external hosting, you can use a data URI iframe directly in an article's source code:
+
+Open your article in Zendesk Guide
+Click the < > source code button
+Paste this — it embeds the entire file inline with no external hosting needed:
+html
+<iframe 
+  srcdoc="PASTE_FULL_HTML_HERE_ESCAPED" 
+  width="100%" 
+  height="950px" 
+  frameborder="0" 
+  style="border:none;border-radius:8px;">
+</iframe>
+The srcdoc attribute takes raw HTML directly — scripts run fine inside it because it's sandboxed as its own document. No hosting required.
+
+My recommendation for you specifically: given you already have the Theme editor open (visible in your screenshot), Option 1 is the fastest — you're literally one click away from "Edit code" and you already know how to use it. The guide will live at a clean Zendesk URL and you can link to it from any article or your homepage.
+
+Want me to prep the file specifically formatted for any of these options?
+
+
+excerpt_from_previous_claude_message.txt
+1 line
+
+txt
+
+if i do this can i delete it afterwords
+
+11:42 AM
+Yes, absolutely. You can delete or unpublish it at any time.
+
+To delete a custom page in the Theme editor:
+
+Go to Customize design → Edit code
+Find your fedex-guide page in the left file tree
+Hover over it and click the trash icon that appears
+To just hide it without deleting, there's no built-in "unpublish" for custom pages — but you can simply remove the link to it from any articles, so nobody can find it organically. The URL would still technically work if someone had it directly.
+
+If you want a safer setup, Option 3 (the srcdoc iframe inside a regular article) is actually easier to manage — you just unpublish or delete the article like any other Zendesk article, and it's completely gone. No theme code to clean up.
+
+Want to go that route instead? I can generate a ready-to-paste version of the file formatted for srcdoc.
+
+1781027072253_image.png
+11:44 AM
+You're already in — the file is created and the code is loading in perfectly.
+
+However I can see the banner at the top:
+
+"To apply this template in your Help Center, upgrade to Guide Enterprise"
+
+That means custom pages require Guide Enterprise on your Zendesk plan. So this file will exist in the theme editor but won't be publicly accessible at a URL without upgrading.
+
+Your best options from here:
+
+Option A — srcdoc iframe in a regular article (free, works now) No plan upgrade needed. I generate a single paste-ready block, you drop it into any article's source code view. Done in 2 minutes.
+
+Option B — Keep it in the theme as a dev reference It's already there, the code looks clean. If Bizee ever upgrades to Guide Enterprise it goes live instantly — zero extra work.
+
+Option C — Host on GitHub Pages (free) Since you already use rp-bizeeknowledge on GitHub:
+
+Create a new repo (e.g. fedex-tools)
+Drop the HTML file in as index.html
+Go to repo Settings → Pages → Deploy from main branch
+Live in ~1 minute at rp-bizeeknowledge.github.io/fedex-tools
+Link to it from any Zendesk article
+That last option is probably the cleanest long-term — it gives you a real URL, no Zendesk plan limitations, and you can update it by just pushing to GitHub like you already do with your training pages.
+
+Want me to prep the file for any of these?
+
+
+excerpt_from_previous_claude_message.txt
+1 line
+
+txt
+
+lets try this
+
+11:45 AM
+Let me read the current file and generate the srcdoc version.
+
+
+Ran a command, read a file
+Ran a command, read a file
+Here's your paste-ready file. Here's exactly what to do:
+
+In Zendesk Guide, create a new article (or open an existing one)
+In the article editor, click the < > source code button
+Select all and delete any existing content
+Open the downloaded fedex-guide-zendesk.html file in any text editor (Notepad, VS Code, etc.)
+Select all → Copy → Paste into the Zendesk source code editor
+Click Done then Save and Publish
+That's it — the entire interactive guide will be embedded and fully functional inside the article, no hosting needed. The srcdoc iframe runs the JavaScript in its own sandboxed document so Zendesk's script restrictions don't apply to it.
+
+
+Fedex guide zendesk
+Code · HTML 
+1781027161811_image.png
+11:46 AM
+I can see it only pasted the word "srcdoc" — Zendesk's editor is interpreting the srcdoc attribute value as plain text instead of HTML. This is a known Zendesk quirk with the rich text editor.
+
+Here's the fix — you need to go through the HTML block directly:
+
+Click the HTML block that's showing "srcdoc" (the blue box in your screenshot)
+Click the pencil/edit icon that appeared in the toolbar below it
+That opens a raw HTML editor — delete what's in there and paste the full contents of the file
+Click Update
+If that still doesn't work, try this instead:
+
+Delete that HTML block entirely
+Click the HTML button in the top toolbar (visible in your screenshot, top right of the formatting bar)
+That inserts a fresh HTML block — paste directly into it
+Click Update
+The key is you need to be inside the HTML block's own editor, not pasting into the article editor itself. The article editor treats the paste as plain text, but the HTML block editor accepts raw markup.
+
+
+<iframe srcdoc="<!DOCTYPE html> <html lang=&quot;en&quot;> <head> <meta charset=&quot;UTF-8&quot;> <meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;> <title>FedEx Undeliverable Package — Bizee Guide</title> <style> @import url('https://fonts.googleapi
+
+pasted
+
+11:48 AM
+I can see the full generated code in the document. The issue you hit is that Zendesk's HTML block editor won't accept a paste of 40,000+ characters reliably. Let me generate a cleaner version specifically optimized for the Zendesk HTML block — breaking it into the minimum needed and using a slightly different escaping approach that Zendesk handles better.
+
+
+Ran 2 commands, read a file
+Ran 2 commands, read a file
+Here's the improved version. The key difference from the previous one — it uses single quotes for the srcdoc attribute wrapper instead of double quotes, which means nothing inside needs to be &quot; escaped. Zendesk's HTML block handles this much more cleanly.
+
+Steps:
+
+Download fedex-zendesk-v2.html and open it in VS Code or Notepad
+Ctrl+A → Ctrl+C to copy everything
+In Zendesk, create your article, click the HTML button in the toolbar to insert an HTML block
+Double-click the HTML block to open its editor
+Ctrl+A to select any existing content, then Ctrl+V to paste
+Click Done → Save → Publish
+If the HTML block editor still struggles with the size, let me know and I'll switch to the GitHub Pages route — that would genuinely be a 2-minute setup given you already have the rp-bizeeknowledge org and it would give you a permanent clean URL with no paste issues at all.
+
+
+Fedex zendesk v2
+Code · HTML 
+still giving an issue
+
+11:49 AM
+Yeah, the Zendesk HTML block has a size limit that's just too small for this. GitHub Pages is genuinely the cleanest fix here — and since you already have the rp-bizeeknowledge org it'll take about 3 minutes.
+
+Here's exactly what to do:
+
+1. Create a new repo
+
+Go to github.com → click + → New repository
+Owner: rp-bizeeknowledge
+Name: fedex-guide (or anything you want)
+Set to Public
+Check "Add a README file"
+Click Create repository
+2. Upload the file
+
+In the new repo, click Add file → Upload files
+Upload fedex-guide.html from your downloads
+Rename it to index.html before uploading (just rename the file on your computer first)
+Click Commit changes
+3. Enable GitHub Pages
+
+Go to repo Settings → Pages (left sidebar)
+Under Source, select Deploy from a branch
+Branch: main / folder: / (root)
+Click Save
+4. Your live URL After ~1 minute it will be live at: https://rp-bizeeknowledge.github.io/fedex-guide
+
+5. Embed in Zendesk article In your Zendesk article HTML block, paste just this one small line — no size issues:
+
+html
+<iframe src="https://rp-bizeeknowledge.github.io/fedex-guide" width="100%" height="950" frameborder="0" style="border:none;border-radius:8px;"></iframe>
+That's a tiny paste that Zendesk will accept instantly. Want me to also prep a version with the Bizee GitHub assets CDN URLs already pointing correctly?
+
+1781028109875_image.png
+12:01 PM
+You're almost there! I can see it's already set to Deploy from a branch → main → / (root) which is exactly right — and it looks like it's already been saved (the Save button isn't highlighted).
+
+I can see the domain is silviog-oss.github.io — that means this is a personal repo, not the rp-bizeeknowledge org. That's totally fine, it'll still work.
+
+Your URL will be: https://silviog-oss.github.io/[repo-name]
+
+Just scroll up on that same Settings → Pages screen and you should see a box that says "Your site is live at..." with the full URL. If it's not there yet, wait 60 seconds and refresh.
+
+Once you have the URL, paste this into your Zendesk article HTML block:
+
+html
+<iframe src="https://silviog-oss.github.io/YOUR-REPO-NAME" width="100%" height="950" frameborder="0" style="border:none;border-radius:8px;"></iframe>
+Replace YOUR-REPO-NAME with whatever you named the repo. What's the repo name you used?
+
+https://silviog-oss.github.io/fedex-guide?
+
+12:02 PM
+Yes, that's it! Your guide is live at:
+
+https://silviog-oss.github.io/fedex-guide
+
+Now go to your Zendesk article and paste this single line into the HTML block — it's tiny so no size issues:
+
+html
+<iframe src="https://silviog-oss.github.io/fedex-guide" width="100%" height="950" frameborder="0" style="border:none;border-radius:8px;"></iframe>
+That's it. The guide will load fully interactive inside the article.
+
+One thing to keep in mind — whenever you want to update the guide, just push the new index.html to that repo and GitHub Pages will automatically redeploy it within about a minute. The Zendesk article never needs to be touched again.
+
+1781028226176_image.png
+wait i got lost
+
+12:03 PM
+You're not lost at all — you're actually done with GitHub!
+
+I can see the green box: "Your site is live at https://silviog-oss.github.io/fedex-guide/" ✅
+
+Now just go to Zendesk and do this:
+
+Create or open an article in Zendesk Guide
+Click the HTML button in the article toolbar
+In the HTML block editor, paste this:
+html
+<iframe src="https://silviog-oss.github.io/fedex-guide" width="100%" height="950" frameborder="0" style="border:none;border-radius:8px;"></iframe>
+Click Done
+Click Save → Publish
+That's the whole thing — the guide is now permanently hosted and the Zendesk article just points to it. Done! 🎉
+
+1781028289193_image.png
+it has this two ugly lines
+
+12:04 PM
+Those are the iframe scrollbars showing up because the content is slightly taller than the iframe height. Easy fix — add scrolling="no" and bump the height a little:
+
+html
+<iframe src="https://silviog-oss.github.io/fedex-guide" width="100%" height="1100" frameborder="0" scrolling="no" style="border:none;border-radius:8px;display:block;"></iframe>
+But the real fix is to make the iframe auto-resize to its content so it's always the perfect height no matter what step you're on. Replace your iframe in the Zendesk article with this:
+
+html
+<iframe id="fedex-guide-frame" src="https://silviog-oss.github.io/fedex-guide" width="100%" frameborder="0" scrolling="no" style="border:none;border-radius:8px;display:block;min-height:600px;"></iframe>
+<script>
+  window.addEventListener('message', function(e) {
+    if (e.origin !== 'https://silviog-oss.github.io') return;
+    if (e.data && e.data.height) {
+      document.getElementById('fedex-guide-frame').style.height = e.data.height + 'px';
+    }
+  });
+</script>
+And I need to add one line to the guide itself on GitHub so it broadcasts its height. Let me update the file:
+
+
+Viewed a file, edited a file, read a file
+Viewed a file, edited a file, read a file
+Download the updated fedex-guide.html, rename it to index.html, and push it to your GitHub repo to replace the old one. Here's how:
+
+Go to your fedex-guide repo on GitHub
+Click on index.html → click the pencil (edit) icon
+Select all the code and delete it
+Open your new fedex-guide.html in VS Code, select all, copy, and paste it in
+Click Commit changes
+Then update your Zendesk article HTML block to use the auto-resize version:
+
+html
+<iframe id="fedex-guide-frame" src="https://silviog-oss.github.io/fedex-guide" width="100%" frameborder="0" scrolling="no" style="border:none;border-radius:8px;display:block;min-height:600px;"></iframe>
+<script>
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.height) {
+      document.getElementById('fedex-guide-frame').style.height = e.data.height + 'px';
+    }
+  });
+</script>
+No more scrollbars — the iframe will now grow and shrink automatically as you move through each step.
+
+
+Fedex guide
+Code · HTML 
+1781028380425_image.png
+is there a way to remove it all the way?
+
+12:06 PM
+The scrollbar is on the Zendesk article page itself, not the iframe — it appears because the iframe isn't fully expanding to match its content height yet. The auto-resize script should fix it once you push the updated file to GitHub.
+
+But there's one more thing to add — the iframe also needs to re-report its height after dynamic content loads (like when notes generate). Let me also make the iframe dimensions match better:
+
+
+Make height reporting fire on any DOM change too, not just render
+Make height reporting fire on any DOM change too, not just render
+Also call reportHeight after generating notes since that expands the page:
+
+
+Edited 2 files, read a file
+Edited 2 files, read a file
+Download this, rename to index.html, and replace it on GitHub. Then make sure your Zendesk article has this version of the embed code (the script is what does the magic):
+
+html
+<iframe id="fedex-guide-frame" src="https://silviog-oss.github.io/fedex-guide" width="100%" frameborder="0" scrolling="no" style="border:none;display:block;min-height:500px;"></iframe>
+<script>
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.height) {
+      document.getElementById('fedex-guide-frame').style.height = e.data.height + 'px';
+    }
+  });
+</script>
+Once both are updated the scrollbar will be completely gone — the iframe will grow and shrink to exactly fit whatever step is showing.
+
+
+Fedex guide
+Code · HTML 
+can i push theupdate through visual studio code?
+
+12:13 PM
+Yes! Since you already use VS Code, this is the easiest way. Here's exactly what to do:
+
+1. Clone the repo (first time only)
+
+In VS Code, press Ctrl+Shift+P
+Type Git: Clone and select it
+Paste: https://github.com/silviog-oss/fedex-guide
+Choose a folder on your computer to save it
+Click Open when it asks
+2. Replace the file
+
+In the VS Code file explorer, you'll see index.html
+Delete it
+Copy your new fedex-guide.html into that folder
+Rename it to index.html
+3. Push the update
+
+Click the Source Control icon (the branching icon on the left sidebar — you use this already for your Bizee training pages)
+You'll see index.html listed as a changed file
+Type a commit message like update fedex guide
+Click the ✓ Commit button
+Click Sync Changes (or the push arrow)
+4. Done GitHub Pages will auto-deploy in about 60 seconds. Just visit https://silviog-oss.github.io/fedex-guide to verify the update is live.
+
+Since you already have the Source Control workflow set up for rp-bizeeknowledge, this will feel exactly the same.
+
+ok what code do i need to push
+
+12:15 PM
+Just the one file you already downloaded — fedex-guide.html.
+
+Rename it to index.html before pushing. That's the only file you need — it replaces the existing one in the repo.
+
+Then after you push, also update your Zendesk article HTML block to swap the old iframe for the new one with the auto-resize script:
+
+html
+<iframe id="fedex-guide-frame" src="https://silviog-oss.github.io/fedex-guide" width="100%" frameborder="0" scrolling="no" style="border:none;display:block;min-height:500px;"></iframe>
+<script>
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.height) {
+      document.getElementById('fedex-guide-frame').style.height = e.data.height + 'px';
+    }
+  });
+</script>
+So two things total:
+
+Push index.html to GitHub
+Update the iframe code in the Zendesk article
+
+excerpt_from_previous_claude_message.txt
+1 line
+
+txt
+
+can you provide this one more
+
+12:16 PM
+
+Presented file
+Presented file
+There you go! Remember to rename it from fedex-guide.html to index.html before pushing to GitHub.
+
+
+Fedex guide
+Code · HTML 
+
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+
+
+raw
+Fedex guide · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +1014,7 @@
     min-height: 100vh;
     padding: 0 16px 60px;
   }
-
+ 
   /* ── Header card ─────────────────────────────────────────────── */
   .site-header {
     max-width: 680px;
@@ -68,10 +1045,10 @@
   .fedex-badge .fx { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; }
   .fedex-badge .fx-fed { color: var(--fedex-purple); }
   .fedex-badge .fx-ex  { color: var(--fedex-orange); }
-
+ 
   /* ── Page content wrapper ───────────────────────────────────── */
   .page-wrap { max-width: 680px; margin: 0 auto; }
-
+ 
   /* ── Breadcrumb trail ───────────────────────────────────────── */
   .trail { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
   .trail-crumb {
@@ -81,7 +1058,7 @@
   }
   .trail-crumb.active { color: var(--orange); border-color: var(--orange-mid); background: var(--orange-light); }
   .trail-sep { color: #d1d5db; font-size: 11px; }
-
+ 
   /* ── Step card ──────────────────────────────────────────────── */
   .step-card {
     background: var(--step-bg);
@@ -93,7 +1070,7 @@
     animation: slideIn 0.2s ease;
   }
   @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
+ 
   .step-header {
     padding: 14px 20px 12px;
     border-bottom: 1px solid var(--border);
@@ -113,7 +1090,7 @@
   .step-label { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--orange); }
   .step-title { font-size: 15px; font-weight: 700; color: var(--text); margin-top: 1px; }
   .step-body  { padding: 20px; }
-
+ 
   /* ── Choice buttons ─────────────────────────────────────────── */
   .choices { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
   .choice-btn {
@@ -131,7 +1108,7 @@
   .choice-btn.yes-btn:hover  { border-color: var(--success); background: #f0fdf4; color: var(--success); }
   .choice-btn.no-btn         { border-color: #fecaca; }
   .choice-btn.no-btn:hover   { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
-
+ 
   /* ── Form fields ────────────────────────────────────────────── */
   .field-group { display: flex; flex-direction: column; gap: 12px; }
   .field       { display: flex; flex-direction: column; gap: 4px; }
@@ -144,7 +1121,7 @@
   }
   .field input:focus { border-color: var(--orange); }
   .field-row { display: flex; gap: 12px; } .field-row .field { flex: 1; }
-
+ 
   /* ── Search box ─────────────────────────────────────────────── */
   .search-box {
     background: #fafafa; border: 1.5px solid var(--border);
@@ -168,7 +1145,7 @@
   }
   .search-btn:hover { background: #c73a08; }
   .search-hint { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
-
+ 
   /* ── Callouts ───────────────────────────────────────────────── */
   .callout { display: flex; gap: 10px; align-items: flex-start; padding: 11px 13px; border-radius: var(--radius); margin: 10px 0; font-size: 13px; line-height: 1.5; border-left: 3px solid; }
   .callout.info     { background: #f0f4ff; border-color: #6b8cff; color: #1e3a8a; }
@@ -177,7 +1154,7 @@
   .callout.escalate { background: var(--escalate-bg); border-color: #dc2626; color: #991b1b; }
   .callout-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
   .callout b { font-weight: 700; }
-
+ 
   /* ── Note blocks ────────────────────────────────────────────── */
   .note-block { border-radius: var(--radius-lg); overflow: hidden; margin: 12px 0; border: 1.5px solid; }
   .note-block-header {
@@ -199,7 +1176,7 @@
   .note-block.db .note-block-header { background: var(--db-bg); border-bottom-color: var(--db-border); }
   .note-block.db .tag { background: var(--db-border); color: var(--db-text); }
   .note-block.db .note-body { background: #f7f9ff; }
-
+ 
   .note-body { padding: 13px; }
   .note-inputs { display: flex; gap: 12px; margin-bottom: 10px; }
   .note-inputs .field { flex: 1; max-width: 220px; }
@@ -221,7 +1198,7 @@
   .copy-btn:hover { background: #c73a08; } .copy-btn.copied { background: var(--success); }
   .note-link { color: var(--orange); font-weight: 600; text-decoration: none; }
   .note-link:hover { text-decoration: underline; }
-
+ 
   /* ── Buttons ────────────────────────────────────────────────── */
   .action-btn {
     display: inline-flex; align-items: center; gap: 6px;
@@ -238,7 +1215,7 @@
   .action-btn.back      { background: white; color: var(--muted); border: 1.5px solid var(--border); padding: 8px 14px; font-size: 13px; }
   .action-btn.back:hover { background: #f5f5f5; color: var(--text); }
   .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
-
+ 
   /* ── Done badge ─────────────────────────────────────────────── */
   .done-badge {
     display: inline-flex; align-items: center; gap: 6px;
@@ -246,7 +1223,7 @@
     color: var(--success); font-size: 13px; font-weight: 600;
     padding: 6px 14px; border-radius: 20px; margin-bottom: 10px;
   }
-
+ 
   /* ── Bottom bar ─────────────────────────────────────────────── */
   .bottom-bar { max-width: 680px; margin: 8px auto 0; text-align: center; }
   .restart-btn {
@@ -255,7 +1232,7 @@
     cursor: pointer; text-decoration: underline;
   }
   .restart-btn:hover { color: var(--text); }
-
+ 
   /* ── Clipboard banner ───────────────────────────────────────── */
   .clipboard-banner { display:none; background:#fffbeb; border:1.5px solid #fcd34d; border-left: 3px solid #f59e0b; border-radius: var(--radius); padding:12px 14px; margin:10px 0; flex-direction:column; gap:5px; }
   .clipboard-banner .cb-head { font-size:13px; font-weight:700; color:#92400e; }
@@ -263,7 +1240,7 @@
 </style>
 </head>
 <body>
-
+ 
 <div class="site-header">
   <div class="site-header-left">
     <div class="bizee-mark">b</div>
@@ -276,32 +1253,32 @@
     <span class="fx fx-fed">Fed</span><span class="fx fx-ex">Ex</span>
   </div>
 </div>
-
+ 
 <div class="page-wrap">
   <div class="trail" id="trail"></div>
   <div id="app"></div>
 </div>
 <div class="bottom-bar"><button class="restart-btn" onclick="restart()">↺ Start over</button></div>
-
+ 
 <script>
 // ── State ─────────────────────────────────────────────────────────────────────
 let state = { step: 'CALL_TYPE', callType: null, vm: {}, live: {}, trail: ['CALL_TYPE'] };
 // History stack for back button — each entry is a deep copy of state before the step change
 let history = [];
-
+ 
 const TRAIL = {
   CALL_TYPE:'Call Type', VM_FORM:'Voicemail Info', VM_ESCALATE:'Escalate',
   LIVE_FORM:'Live Call', LIVE_SEARCH_REF:'Search by Ref #',
   LIVE_SEARCH_NAME:'Search by Name', LIVE_FOUND:'Order Found', LIVE_NOT_FOUND:'No Order',
 };
-
+ 
 // ── Render ────────────────────────────────────────────────────────────────────
 function reportHeight() {
   if (window.parent !== window) {
     window.parent.postMessage({ height: document.body.scrollHeight + 32 }, '*');
   }
 }
-
+ 
 function render() {
   renderTrail();
   const app = document.getElementById('app');
@@ -319,12 +1296,12 @@ function renderTrail() {
   ).join('');
 }
 function pushTrail(s) { if (state.trail[state.trail.length-1]!==s) state.trail.push(s); }
-
+ 
 // Save state to history before navigating
 function saveHistory() {
   history.push(JSON.parse(JSON.stringify(state)));
 }
-
+ 
 // Capture any currently visible form inputs into state before navigating
 function captureCurrentInputs() {
   const s = state.step;
@@ -361,14 +1338,14 @@ function captureCurrentInputs() {
     };
   }
 }
-
+ 
 function goBack() {
   if (history.length === 0) return;
   captureCurrentInputs(); // save whatever is typed right now before going back
   state = history.pop();
   render();
 }
-
+ 
 // ── Note block builders ───────────────────────────────────────────────────────
 function zdNoteBlock(pid, defaultContent) {
   return `
@@ -382,7 +1359,7 @@ function zdNoteBlock(pid, defaultContent) {
       </div>
     </div>`;
 }
-
+ 
 function dbNoteBlock(pid, defaultOrder) {
   const initialText = dbNoteText(pid, '[ticket #]', defaultOrder);
   const orderLink   = defaultOrder
@@ -410,7 +1387,7 @@ function dbNoteBlock(pid, defaultOrder) {
       </div>
     </div>`;
 }
-
+ 
 const DB_LABELS = {
   vm:  'FedEx Undeliverable Package — Voicemail Received — Escalated to RA/VA',
   rts: 'FedEx Undeliverable Package — Return to Sender Confirmed',
@@ -434,18 +1411,18 @@ function refreshDB(pid) {
     }
   }
 }
-
+ 
 // ── Back button HTML ──────────────────────────────────────────────────────────
 function backBtn() {
   return history.length > 0
     ? `<button class="action-btn back" onclick="goBack()">← Back</button>`
     : '';
 }
-
+ 
 // ── Steps ─────────────────────────────────────────────────────────────────────
 function getStepHTML(step) {
   switch(step) {
-
+ 
     case 'CALL_TYPE': return `
       <div class="step-header">
         <div class="step-icon purple">📞</div>
@@ -464,7 +1441,7 @@ function getStepHTML(step) {
           </button>
         </div>
       </div>`;
-
+ 
     case 'VM_FORM': return `
       <div class="step-header">
         <div class="step-icon purple">📩</div>
@@ -488,7 +1465,7 @@ function getStepHTML(step) {
           <button class="action-btn primary" onclick="submitVM()">Continue &#8594; Generate Notes</button>
         </div>
       </div>`;
-
+ 
     case 'VM_ESCALATE': {
       const zdText = buildVMZDNote(state.vm);
       const ref    = state.vm.reference || '';
@@ -508,7 +1485,7 @@ function getStepHTML(step) {
           </div>
         </div>`;
     }
-
+ 
     case 'LIVE_FORM': return `
       <div class="step-header">
         <div class="step-icon orange">🎧</div>
@@ -528,7 +1505,7 @@ function getStepHTML(step) {
           <button class="action-btn primary" onclick="submitLive()">Continue &#8594; Search for Order</button>
         </div>
       </div>`;
-
+ 
     case 'LIVE_SEARCH_REF': return `
       <div class="step-header">
         <div class="step-icon blue">🔍</div>
@@ -551,7 +1528,7 @@ function getStepHTML(step) {
         </div>
         <div class="btn-row" style="margin-top:16px;">${backBtn()}</div>
       </div>`;
-
+ 
     case 'LIVE_SEARCH_NAME': return `
       <div class="step-header">
         <div class="step-icon blue">🔍</div>
@@ -586,7 +1563,7 @@ function getStepHTML(step) {
         </div>
         <div class="btn-row" style="margin-top:16px;">${backBtn()}</div>
       </div>`;
-
+ 
     case 'LIVE_FOUND': return `
       <div class="step-header">
         <div class="step-icon green">✅</div>
@@ -611,7 +1588,7 @@ function getStepHTML(step) {
           <div class="btn-row"><button class="action-btn secondary" onclick="restart()">↺ Handle another call</button></div>
         </div>
       </div>`;
-
+ 
     case 'LIVE_NOT_FOUND': return `
       <div class="step-header">
         <div class="step-icon red">❓</div>
@@ -634,11 +1611,11 @@ function getStepHTML(step) {
           <div class="btn-row"><button class="action-btn secondary" onclick="restart()">↺ Handle another call</button></div>
         </div>
       </div>`;
-
+ 
     default: return `<div class="step-body"><p>Unknown step</p></div>`;
   }
 }
-
+ 
 // ── Navigation ────────────────────────────────────────────────────────────────
 function go(type) {
   saveHistory();
@@ -646,7 +1623,7 @@ function go(type) {
   const next = type === 'voicemail' ? 'VM_FORM' : 'LIVE_FORM';
   state.step = next; pushTrail(next); render();
 }
-
+ 
 function submitVM() {
   saveHistory();
   state.vm = {
@@ -658,7 +1635,7 @@ function submitVM() {
   };
   state.step = 'VM_ESCALATE'; pushTrail('VM_ESCALATE'); render();
 }
-
+ 
 function submitLive() {
   saveHistory();
   state.live = {
@@ -670,12 +1647,12 @@ function submitLive() {
   const next = state.live.reference ? 'LIVE_SEARCH_REF' : 'LIVE_SEARCH_NAME';
   state.step = next; pushTrail(next); render();
 }
-
+ 
 function openRef() {
   const ref = document.getElementById('ref-input')?.value.trim() || state.live.reference || '';
   window.open(`https://bizee.tech/incfile/order/detail/${encodeURIComponent(ref)}`, '_blank');
 }
-
+ 
 function openNameSearch() {
   const name = document.getElementById('live-name')?.value.trim() || '';
   state.live.name = name;
@@ -695,7 +1672,7 @@ function openNameSearch() {
   if (banner) banner.style.display = 'flex';
   if (nameEl)  nameEl.textContent = name;
 }
-
+ 
 function refFound(found) {
   saveHistory();
   state.live.reference = document.getElementById('ref-input')?.value.trim() || state.live.reference || '';
@@ -703,7 +1680,7 @@ function refFound(found) {
   else        { state.step = 'LIVE_SEARCH_NAME'; pushTrail('LIVE_SEARCH_NAME'); }
   render();
 }
-
+ 
 function nameFound(found) {
   saveHistory();
   state.live.name = document.getElementById('live-name')?.value.trim() || state.live.name || '';
@@ -711,16 +1688,16 @@ function nameFound(found) {
   else        { state.step = 'LIVE_NOT_FOUND'; pushTrail('LIVE_NOT_FOUND'); }
   render();
 }
-
+ 
 // ── Generate ──────────────────────────────────────────────────────────────────
 function generateRTS() {
   const orderNum    = document.getElementById('rts-order')?.value.trim()    || state.live.reference || 'N/A';
   const trackingNum = document.getElementById('rts-tracking')?.value.trim() || state.live.tracking  || 'N/A';
   state.live.orderNum = orderNum;
-
+ 
   const zdEl = document.getElementById('rts-zd-text');
   if (zdEl) zdEl.textContent = buildRTSZDNote({ orderNum, trackingNum, reason: state.live.reason });
-
+ 
   document.getElementById('rts-output').style.display = 'block';
   setTimeout(reportHeight, 80);
   setTimeout(reportHeight, 400);
@@ -729,20 +1706,20 @@ function generateRTS() {
     if (dbOrder && orderNum !== 'N/A') { dbOrder.value = orderNum; refreshDB('rts'); }
   }, 0);
 }
-
+ 
 function generateEsc() {
   const name     = document.getElementById('nf-name')?.value.trim()     || state.live.name || '';
   const location = document.getElementById('nf-location')?.value.trim() || '';
   state.live.name = name; state.live.packageLocation = location;
-
+ 
   const zdEl = document.getElementById('esc-zd-text');
   if (zdEl) zdEl.textContent = buildEscZDNote({ tracking: state.live.tracking, reference: state.live.reference, name, reason: state.live.reason, location });
-
+ 
   document.getElementById('esc-output').style.display = 'block';
   setTimeout(reportHeight, 80);
   setTimeout(reportHeight, 400);
 }
-
+ 
 // ── ZD Note templates ─────────────────────────────────────────────────────────
 function buildVMZDNote(vm) {
   const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
@@ -784,7 +1761,7 @@ function buildEscZDNote({ tracking, reference, name, reason, location }) {
     `Package Location:     ${location  || 'Not provided'}`,
   ].join('\n');
 }
-
+ 
 // ── Copy (no permission prompt) ───────────────────────────────────────────────
 function copyEl(btnId, contentId) {
   const content = document.getElementById(contentId)?.textContent || '';
@@ -805,15 +1782,15 @@ function copyEl(btnId, contentId) {
     setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
   }
 }
-
+ 
 function escapeHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
+ 
 function restart() {
   history = [];
   state = { step:'CALL_TYPE', callType:null, vm:{}, live:{}, trail:['CALL_TYPE'] };
   render();
 }
-
+ 
 render();
 </script>
 </body>
